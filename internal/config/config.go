@@ -1,10 +1,11 @@
 package config
 
 import (
-	"encoding/json"
 	"errors"
 	"os"
 	"slices"
+
+	"github.com/goccy/go-yaml"
 )
 
 // ErrCommandNotFound for config.
@@ -18,7 +19,7 @@ func Decode(path string) (*Config, error) {
 	}
 
 	var config Config
-	if err := json.NewDecoder(f).Decode(&config); err != nil {
+	if err := yaml.NewDecoder(f).Decode(&config); err != nil {
 		return nil, err
 	}
 
