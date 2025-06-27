@@ -8,7 +8,7 @@ This tool allows you to still call commands though just stub them out.
 
 The configuration is just a lost of commands and wether you would like to write to stdout or stderr.
 
-Each command can be text, file or a base64 text.
+Each command can be `text`, `file` or a `base64` text.
 
 ```json
 {

@@ -23,7 +23,7 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - "^chore:"
+      - "^chore"
 
 release:
   footer: >-
