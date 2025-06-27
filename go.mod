@@ -2,7 +2,10 @@ module github.com/alexfalkowski/tausch
 
 go 1.24.4
 
-require github.com/stretchr/testify v1.10.0
+require (
+	github.com/goccy/go-yaml v1.18.0
+	github.com/stretchr/testify v1.10.0
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

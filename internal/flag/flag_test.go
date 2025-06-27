@@ -9,10 +9,10 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	os.Args = []string{"cmd", "-config", "cfg.json", "test", "my", "code"}
+	os.Args = []string{"cmd", "-config", "cfg.yaml", "test", "my", "code"}
 
 	c := flag.Config()
-	assert.Equal(t, "cfg.json", c)
+	assert.Equal(t, "cfg.yaml", c)
 
 	name := flag.Name()
 	assert.Equal(t, "test my code", name)
