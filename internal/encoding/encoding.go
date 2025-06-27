@@ -8,7 +8,7 @@ import (
 )
 
 // ErrKindNotFound for encoding.
-var ErrKindNotFound = errors.New("encoding: kind not found")
+var ErrKindNotFound = errors.New("kind not found")
 
 // Decode the value, which is kind:data.
 func Decode(value string) ([]byte, error) {

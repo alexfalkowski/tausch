@@ -8,7 +8,7 @@ import (
 )
 
 // ErrCommandNotFound for config.
-var ErrCommandNotFound = errors.New("config: command not found")
+var ErrCommandNotFound = errors.New("command not found")
 
 // Decode the config.
 func Decode(path string) (*Config, error) {
