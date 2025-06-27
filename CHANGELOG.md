@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.3.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.3.0) - 2025-06-27
+
+- [`9442a60`](https://github.com/alexfalkowski/tausch/commit/9442a607c5f29552b60510d59d5186fc57380eb8) feat(error): remove prefix (#3)
+
 ## [v0.2.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.2.0) - 2025-06-27
 
 - [`1483a3f`](https://github.com/alexfalkowski/tausch/commit/1483a3f05af14c2466556b644530627f1a1d52b2) feat(cmd): add commands (#2)
