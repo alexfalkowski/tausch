@@ -2,3 +2,5 @@
 vendor
 *.prof
 *.cov
+*.xml
+tausch

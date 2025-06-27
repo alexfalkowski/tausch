@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"os"
+
+	"github.com/alexfalkowski/tausch/internal/cmd"
+)
 
 func main() {
-	fmt.Println("yes")
+	code, err := cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	os.Exit(code)
 }
