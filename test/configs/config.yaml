@@ -1,0 +1,9 @@
+cmds:
+- name: text_stdout
+  stdout: text:test
+- name: text_stderr
+  stderr: text:test
+- name: base64_stdout
+  stdout: base64:dGVzdA==
+- name: file_stdout
+  stdout: file:test/configs/test.txt
