@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="0" failures="0" errors="0" time="0.292608">
+	<testsuite tests="0" failures="0" time="0.293000" name="github.com/alexfalkowski/tausch" timestamp="2025-06-27T14:31:37+02:00">
+		<properties>
+			<property name="go.version" value="go1.24.4 darwin/amd64"></property>
+		</properties>
+	</testsuite>
+</testsuites>
