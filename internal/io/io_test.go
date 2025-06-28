@@ -17,7 +17,7 @@ func TestWriteSuccess(t *testing.T) {
 
 	for _, value := range values {
 		buffer := &bytes.Buffer{}
-		ok, err := io.Write(value, buffer)
+		ok, err := io.Write(buffer, value)
 
 		assert.NoError(t, err)
 		assert.True(t, ok)
@@ -33,7 +33,7 @@ func TestWriteError(t *testing.T) {
 
 	for _, value := range values {
 		buffer := &bytes.Buffer{}
-		ok, err := io.Write(value, buffer)
+		ok, err := io.Write(buffer, value)
 
 		assert.Error(t, err)
 		assert.False(t, ok)
@@ -43,7 +43,7 @@ func TestWriteError(t *testing.T) {
 
 func TestWriteEmpty(t *testing.T) {
 	buffer := &bytes.Buffer{}
-	ok, err := io.Write("", buffer)
+	ok, err := io.Write(buffer, "")
 
 	assert.NoError(t, err)
 	assert.False(t, ok)

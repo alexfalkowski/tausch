@@ -6,8 +6,11 @@ import (
 	"github.com/alexfalkowski/tausch/internal/encoding"
 )
 
+// Writer is an alias for io.Writer.
+type Writer = io.Writer
+
 // Write data to w.
-func Write(data string, w io.Writer) (bool, error) {
+func Write(w io.Writer, data string) (bool, error) {
 	if len(data) == 0 {
 		return false, nil
 	}

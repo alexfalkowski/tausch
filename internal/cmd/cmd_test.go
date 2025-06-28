@@ -1,6 +1,7 @@
 package cmd_test
 
 import (
+	"bytes"
 	"os"
 	"testing"
 
@@ -14,10 +15,12 @@ func TestRunMissingConfig(t *testing.T) {
 		"--",
 		"test", "my", "code",
 	}
-	c, err := cmd.Run()
+	b := &bytes.Buffer{}
+	c, err := cmd.Run(b, b)
 
 	assert.Error(t, err)
 	assert.Zero(t, c)
+	assert.Empty(t, b.Bytes())
 }
 
 func TestRunMissingCommand(t *testing.T) {
@@ -26,10 +29,12 @@ func TestRunMissingCommand(t *testing.T) {
 		"--",
 		"test", "my", "code",
 	}
-	c, err := cmd.Run()
+	b := &bytes.Buffer{}
+	c, err := cmd.Run(b, b)
 
 	assert.Error(t, err)
 	assert.Zero(t, c)
+	assert.Empty(t, b.Bytes())
 }
 
 func TestRunStdout(t *testing.T) {
@@ -38,10 +43,12 @@ func TestRunStdout(t *testing.T) {
 		"--",
 		"go", "version",
 	}
-	c, err := cmd.Run()
+	b := &bytes.Buffer{}
+	c, err := cmd.Run(b, b)
 
 	assert.NoError(t, err)
 	assert.Zero(t, c)
+	assert.NotEmpty(t, b.Bytes())
 }
 
 func TestRunStderr(t *testing.T) {
@@ -50,8 +57,10 @@ func TestRunStderr(t *testing.T) {
 		"--",
 		"go", "bob",
 	}
-	c, err := cmd.Run()
+	b := &bytes.Buffer{}
+	c, err := cmd.Run(b, b)
 
 	assert.NoError(t, err)
 	assert.Equal(t, 1, c)
+	assert.NotEmpty(t, b.Bytes())
 }
