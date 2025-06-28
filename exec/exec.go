@@ -2,9 +2,9 @@ package exec
 
 import (
 	"context"
+	"errors"
 	"os"
 	"os/exec"
-	"path/filepath"
 )
 
 // Command will use tausch under the hood so it looks like you are using the same command.
@@ -18,16 +18,9 @@ func CommandContext(ctx context.Context, name string, arg ...string) *exec.Cmd {
 }
 
 func executable() string {
-	execPath := os.Getenv("TAUSCH_PATH")
-
 	path, err := exec.LookPath("tausch")
-	if err != nil {
-		return execPath
-	}
-
-	path, err = filepath.Abs(path)
-	if err != nil {
-		return execPath
+	if err != nil && !errors.Is(err, exec.ErrDot) {
+		return os.Getenv("TAUSCH_PATH")
 	}
 
 	return path
