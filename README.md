@@ -45,6 +45,25 @@ go bob &> test/stderr/go_bob.txt
 
 There are multiple ways you can use this.
 
+### Environment
+
+The executable looks for configuration in a few places.
+
+#### Executable
+
+The executable will read the config from the following places:
+
+- `-config` - argument with a path.
+- `TAUSCH_CONFIG` - from an env variable.
+- `$HOME/.config/tausch.yml` - The config can be placed a well known config folder.
+
+#### exec.CommandContext
+
+Using the library will look for the executable in the following places:
+
+- `TAUSCH_PATH` - the path of the binary.
+- `$PATH`: - finds the executable provided in the path.
+
 ### Command
 
 You just pass in a config and after the `--` you call your usual command. So basically you just prefix your command with `tausch`.
@@ -52,30 +71,24 @@ You just pass in a config and after the `--` you call your usual command. So bas
 #### Example for `stdout`
 
 ```bash
-tausch -config test/configs/config.yaml -- go version
+tausch -config test/configs/config.yml -- go version
 ```
 
 #### Example for `stderr`
 
 ```bash
-tausch -config test/configs/config.yaml -- go bob
+tausch -config test/configs/config.yml -- go bob
 ```
 
 To verify it caused and error:
 
 ```bash
-echo $?
-1
+echo $? => 1
 ```
 
 ### Library
 
-There is an `exec` package, this package will read from the following env variables:
-
-- `TAUSCH_PATH`:    the path of the binary.
-- `TAUSCH_CONFIG`:  the configuration file.
-
-In your code you would use it just like you would the [exec](https://pkg.go.dev/os/exec):
+In your code you would use it just like you would the [exec](https://pkg.go.dev/os/exec).
 
 ```go
 import (
@@ -84,6 +97,9 @@ import (
   "github.com/alexfalkowski/tausch/exec"
 )
 
+cmd := exec.Command("go", "version")
+_ = cmd.Run()
+
 cmd := exec.CommandContext(context.Background(), "go", "version")
-cmd.Run()
+_ = cmd.Run()
 ```
