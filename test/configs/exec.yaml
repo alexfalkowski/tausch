@@ -1,0 +1,5 @@
+cmds:
+- name: go version
+  stdout: file:../test/stdout/go_version.txt
+- name: go bob
+  stderr: file:../test/stderr/go_bob.txt

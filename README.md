@@ -43,15 +43,19 @@ go bob &> test/stderr/go_bob.txt
 
 ## Usage
 
+There are multiple ways you can use this.
+
+### Command
+
 You just pass in a config and after the `--` you call your usual command. So basically you just prefix your command with `tausch`.
 
-### Example for `stdout`
+#### Example for `stdout`
 
 ```bash
 tausch -config test/configs/config.yaml -- go version
 ```
 
-### Example for `stderr`
+#### Example for `stderr`
 
 ```bash
 tausch -config test/configs/config.yaml -- go bob
@@ -62,4 +66,24 @@ To verify it caused and error:
 ```bash
 echo $?
 1
+```
+
+### Library
+
+There is an `exec` package, this package will read from the following env variables:
+
+- `TAUSCH_PATH`:    the path of the binary.
+- `TAUSCH_CONFIG`:  the configuration file.
+
+In your code you would use it just like you would the [exec](https://pkg.go.dev/os/exec):
+
+```go
+import (
+  "context"
+
+  "github.com/alexfalkowski/tausch/exec"
+)
+
+cmd := exec.CommandContext(context.Background(), "go", "version")
+cmd.Run()
 ```
