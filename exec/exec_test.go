@@ -5,11 +5,35 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/exec"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func init() {
 	exec.Register("../tausch", "../test/configs/exec.yaml")
+}
+
+func TestCommandSuccess(t *testing.T) {
+	b := &bytes.Buffer{}
+
+	cmd := exec.Command("go", "version")
+	cmd.Stdout = b
+	cmd.Stderr = b
+
+	require.NoError(t, cmd.Run())
+	require.NoError(t, cmd.Err)
+	require.NotEmpty(t, b.Bytes())
+}
+
+func TestCommandError(t *testing.T) {
+	b := &bytes.Buffer{}
+
+	cmd := exec.Command("go", "bob")
+	cmd.Stdout = b
+	cmd.Stderr = b
+
+	require.Error(t, cmd.Run())
+	require.NoError(t, cmd.Err)
+	require.NotEmpty(t, b.Bytes())
 }
 
 func TestCommandContextSuccess(t *testing.T) {
@@ -19,9 +43,9 @@ func TestCommandContextSuccess(t *testing.T) {
 	cmd.Stdout = b
 	cmd.Stderr = b
 
-	assert.NoError(t, cmd.Run())
-	assert.NoError(t, cmd.Err)
-	assert.NotEmpty(t, b.Bytes())
+	require.NoError(t, cmd.Run())
+	require.NoError(t, cmd.Err)
+	require.NotEmpty(t, b.Bytes())
 }
 
 func TestCommandContextError(t *testing.T) {
@@ -31,7 +55,7 @@ func TestCommandContextError(t *testing.T) {
 	cmd.Stdout = b
 	cmd.Stderr = b
 
-	assert.Error(t, cmd.Run())
-	assert.NoError(t, cmd.Err)
-	assert.NotEmpty(t, b.Bytes())
+	require.Error(t, cmd.Run())
+	require.NoError(t, cmd.Err)
+	require.NotEmpty(t, b.Bytes())
 }

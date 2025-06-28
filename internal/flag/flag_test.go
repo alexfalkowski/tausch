@@ -4,27 +4,27 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/flag"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestConfigSuccess(t *testing.T) {
 	args := []string{"-config", "cfg.yaml", "test", "my", "code"}
 
 	c, err := flag.Config(args)
-	assert.Equal(t, "cfg.yaml", c)
-	assert.NoError(t, err)
+	require.Equal(t, "cfg.yaml", c)
+	require.NoError(t, err)
 
 	name := flag.Name()
-	assert.Equal(t, "test my code", name)
+	require.Equal(t, "test my code", name)
 }
 
 func TestConfigError(t *testing.T) {
 	args := []string{"- x"}
 
 	c, err := flag.Config(args)
-	assert.Empty(t, c)
-	assert.Error(t, err)
+	require.Empty(t, c)
+	require.Error(t, err)
 
 	name := flag.Name()
-	assert.Empty(t, name)
+	require.Empty(t, name)
 }

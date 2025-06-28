@@ -4,14 +4,14 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/config"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDecodeSuccess(t *testing.T) {
 	c, err := config.Decode("../../test/configs/config.yaml")
 
-	assert.NoError(t, err)
-	assert.NotNil(t, c)
+	require.NoError(t, err)
+	require.NotNil(t, c)
 }
 
 func TestDecodeError(t *testing.T) {
@@ -23,7 +23,7 @@ func TestDecodeError(t *testing.T) {
 	for _, value := range values {
 		c, err := config.Decode(value)
 
-		assert.Error(t, err)
-		assert.Nil(t, c)
+		require.Error(t, err)
+		require.Nil(t, c)
 	}
 }
