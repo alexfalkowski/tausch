@@ -1,0 +1,2 @@
+go bob: unknown command
+Run 'go help' for usage.

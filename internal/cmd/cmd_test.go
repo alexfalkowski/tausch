@@ -9,7 +9,11 @@ import (
 )
 
 func TestRunMissingConfig(t *testing.T) {
-	os.Args = []string{"cmd", "-config", "cfg.yaml", "test", "my", "code"}
+	os.Args = []string{
+		"cmd", "-config", "cfg.yaml",
+		"--",
+		"test", "my", "code",
+	}
 	c, err := cmd.Run()
 
 	assert.Error(t, err)
@@ -17,7 +21,11 @@ func TestRunMissingConfig(t *testing.T) {
 }
 
 func TestRunMissingCommand(t *testing.T) {
-	os.Args = []string{"cmd", "-config", "../../test/configs/config.yaml", "test", "my", "code"}
+	os.Args = []string{
+		"cmd", "-config", "../../test/configs/config.yaml",
+		"--",
+		"test", "my", "code",
+	}
 	c, err := cmd.Run()
 
 	assert.Error(t, err)
@@ -25,7 +33,11 @@ func TestRunMissingCommand(t *testing.T) {
 }
 
 func TestRunStdout(t *testing.T) {
-	os.Args = []string{"cmd", "-config", "../../test/configs/config.yaml", "text_stdout"}
+	os.Args = []string{
+		"cmd", "-config", "../../test/configs/config.yaml",
+		"--",
+		"go", "version",
+	}
 	c, err := cmd.Run()
 
 	assert.NoError(t, err)
@@ -33,7 +45,11 @@ func TestRunStdout(t *testing.T) {
 }
 
 func TestRunStderr(t *testing.T) {
-	os.Args = []string{"cmd", "-config", "../../test/configs/config.yaml", "text_stderr"}
+	os.Args = []string{
+		"cmd", "-config", "../../test/configs/config.yaml",
+		"--",
+		"go", "bob",
+	}
 	c, err := cmd.Run()
 
 	assert.NoError(t, err)
