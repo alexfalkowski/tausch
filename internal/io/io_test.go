@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/io"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestWriteSuccess(t *testing.T) {
@@ -19,9 +19,9 @@ func TestWriteSuccess(t *testing.T) {
 		buffer := &bytes.Buffer{}
 		ok, err := io.Write(buffer, value)
 
-		assert.NoError(t, err)
-		assert.True(t, ok)
-		assert.Equal(t, []byte("test"), bytes.TrimSpace(buffer.Bytes()))
+		require.NoError(t, err)
+		require.True(t, ok)
+		require.Equal(t, []byte("test"), bytes.TrimSpace(buffer.Bytes()))
 	}
 }
 
@@ -35,9 +35,9 @@ func TestWriteError(t *testing.T) {
 		buffer := &bytes.Buffer{}
 		ok, err := io.Write(buffer, value)
 
-		assert.Error(t, err)
-		assert.False(t, ok)
-		assert.Empty(t, buffer.Bytes())
+		require.Error(t, err)
+		require.False(t, ok)
+		require.Empty(t, buffer.Bytes())
 	}
 }
 
@@ -45,7 +45,7 @@ func TestWriteEmpty(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	ok, err := io.Write(buffer, "")
 
-	assert.NoError(t, err)
-	assert.False(t, ok)
-	assert.Empty(t, buffer.Bytes())
+	require.NoError(t, err)
+	require.False(t, ok)
+	require.Empty(t, buffer.Bytes())
 }

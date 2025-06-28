@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/cmd"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRunInvalidArgs(t *testing.T) {
@@ -13,9 +13,9 @@ func TestRunInvalidArgs(t *testing.T) {
 	b := &bytes.Buffer{}
 	c, err := cmd.Run(b, b, args)
 
-	assert.Error(t, err)
-	assert.Zero(t, c)
-	assert.Empty(t, b.Bytes())
+	require.Error(t, err)
+	require.Zero(t, c)
+	require.Empty(t, b.Bytes())
 }
 
 func TestRunMissingConfig(t *testing.T) {
@@ -27,9 +27,9 @@ func TestRunMissingConfig(t *testing.T) {
 	b := &bytes.Buffer{}
 	c, err := cmd.Run(b, b, args)
 
-	assert.Error(t, err)
-	assert.Zero(t, c)
-	assert.Empty(t, b.Bytes())
+	require.Error(t, err)
+	require.Zero(t, c)
+	require.Empty(t, b.Bytes())
 }
 
 func TestRunMissingCommand(t *testing.T) {
@@ -41,9 +41,9 @@ func TestRunMissingCommand(t *testing.T) {
 	b := &bytes.Buffer{}
 	c, err := cmd.Run(b, b, args)
 
-	assert.Error(t, err)
-	assert.Zero(t, c)
-	assert.Empty(t, b.Bytes())
+	require.Error(t, err)
+	require.Zero(t, c)
+	require.Empty(t, b.Bytes())
 }
 
 func TestRunStdout(t *testing.T) {
@@ -55,9 +55,9 @@ func TestRunStdout(t *testing.T) {
 	b := &bytes.Buffer{}
 	c, err := cmd.Run(b, b, args)
 
-	assert.NoError(t, err)
-	assert.Zero(t, c)
-	assert.NotEmpty(t, b.Bytes())
+	require.NoError(t, err)
+	require.Zero(t, c)
+	require.NotEmpty(t, b.Bytes())
 }
 
 func TestRunStderr(t *testing.T) {
@@ -69,7 +69,7 @@ func TestRunStderr(t *testing.T) {
 	b := &bytes.Buffer{}
 	c, err := cmd.Run(b, b, args)
 
-	assert.NoError(t, err)
-	assert.Equal(t, 1, c)
-	assert.NotEmpty(t, b.Bytes())
+	require.NoError(t, err)
+	require.Equal(t, 1, c)
+	require.NotEmpty(t, b.Bytes())
 }

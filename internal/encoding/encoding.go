@@ -23,6 +23,7 @@ func Decode(value string) ([]byte, error) {
 		return d, err
 	case "base64":
 		d, err := base64.StdEncoding.DecodeString(data)
+
 		return d, err
 	}
 

@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/encoding"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDecodeSuccess(t *testing.T) {
@@ -18,8 +18,8 @@ func TestDecodeSuccess(t *testing.T) {
 	for _, value := range values {
 		d, err := encoding.Decode(value)
 
-		assert.NoError(t, err)
-		assert.Equal(t, []byte("test"), bytes.TrimSpace(d))
+		require.NoError(t, err)
+		require.Equal(t, []byte("test"), bytes.TrimSpace(d))
 	}
 }
 
@@ -32,6 +32,6 @@ func TestDecodeError(t *testing.T) {
 
 	for _, value := range values {
 		_, err := encoding.Decode(value)
-		assert.Error(t, err)
+		require.Error(t, err)
 	}
 }
