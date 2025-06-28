@@ -2,21 +2,30 @@ package cmd_test
 
 import (
 	"bytes"
-	"os"
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/cmd"
 	"github.com/stretchr/testify/assert"
 )
 
+func TestRunInvalidArgs(t *testing.T) {
+	args := []string{"- x"}
+	b := &bytes.Buffer{}
+	c, err := cmd.Run(b, b, args)
+
+	assert.Error(t, err)
+	assert.Zero(t, c)
+	assert.Empty(t, b.Bytes())
+}
+
 func TestRunMissingConfig(t *testing.T) {
-	os.Args = []string{
-		"cmd", "-config", "cfg.yaml",
+	args := []string{
+		"-config", "cfg.yaml",
 		"--",
 		"test", "my", "code",
 	}
 	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b)
+	c, err := cmd.Run(b, b, args)
 
 	assert.Error(t, err)
 	assert.Zero(t, c)
@@ -24,13 +33,13 @@ func TestRunMissingConfig(t *testing.T) {
 }
 
 func TestRunMissingCommand(t *testing.T) {
-	os.Args = []string{
-		"cmd", "-config", "../../test/configs/config.yaml",
+	args := []string{
+		"-config", "../../test/configs/config.yaml",
 		"--",
 		"test", "my", "code",
 	}
 	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b)
+	c, err := cmd.Run(b, b, args)
 
 	assert.Error(t, err)
 	assert.Zero(t, c)
@@ -38,13 +47,13 @@ func TestRunMissingCommand(t *testing.T) {
 }
 
 func TestRunStdout(t *testing.T) {
-	os.Args = []string{
-		"cmd", "-config", "../../test/configs/config.yaml",
+	args := []string{
+		"-config", "../../test/configs/config.yaml",
 		"--",
 		"go", "version",
 	}
 	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b)
+	c, err := cmd.Run(b, b, args)
 
 	assert.NoError(t, err)
 	assert.Zero(t, c)
@@ -52,13 +61,13 @@ func TestRunStdout(t *testing.T) {
 }
 
 func TestRunStderr(t *testing.T) {
-	os.Args = []string{
-		"cmd", "-config", "../../test/configs/config.yaml",
+	args := []string{
+		"-config", "../../test/configs/config.yaml",
 		"--",
 		"go", "bob",
 	}
 	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b)
+	c, err := cmd.Run(b, b, args)
 
 	assert.NoError(t, err)
 	assert.Equal(t, 1, c)
