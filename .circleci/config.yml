@@ -10,6 +10,7 @@ jobs:
       - run: git submodule sync
       - run: git submodule update --init
       - run: make dep
+      - run: make build
       - run: make lint
       - run: make sec
       - run: make specs

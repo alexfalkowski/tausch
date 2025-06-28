@@ -12,29 +12,54 @@ This tool allows you to still call commands though just stub them out.
 
 ## Configuration
 
-The configuration is just a lost of commands and wether you would like to write to stdout or stderr.
+The configuration is just a list of `cmds` and wether you would like to write to `stdout` or `stderr`.
 
-Each command can be `text`, `file` or a `base64` text.
+Each `cmd` can be `text`, `file` or a `base64` text.
+
+Example:
 
 ```yaml
 cmds:
-- name: text_stdout
-  stdout: text:test
-- name: text_stderr
-  stderr: text:test
-- name: base64_stdout
-  stdout: base64:dGVzdA==
-- name: file_stdout
-  stdout: file:test/configs/test.txt
+- name: go version
+  stdout: file:test/stdout/go_version.txt
+- name: go bob
+  stderr: file:test/stderr/go_bob.txt
+```
+
+## Capture
+
+To capture the `stdout` or `stderr` of the command, you can run the following:
+
+```bash
+command &> path
+```
+
+### Examples
+
+```bash
+go version &> test/stdout/go_version.txt
+go bob &> test/stderr/go_bob.txt
 ```
 
 ## Usage
 
-> [!TIP]
-> It is best to run your command and save the outputs to a file.
+You just pass in a config and after the `--` you call your usual command. So basically you just prefix your command with `tausch`.
+
+### Example for `stdout`
 
 ```bash
-tausch -config test/configs/config.yaml -- text_stderr
+tausch -config test/configs/config.yaml -- go version
 ```
 
-You just pass in a config and after the `--` you call your usual command. So basically you just prefix your command with `tausch`.
+### Example for `stderr`
+
+```bash
+tausch -config test/configs/config.yaml -- go bob
+```
+
+To verify it caused and error:
+
+```bash
+echo $?
+1
+```
