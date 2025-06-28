@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.7.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.7.0) - 2025-06-28
+
+- [`66093be`](https://github.com/alexfalkowski/tausch/commit/66093be949ca7b6a5074dfc17fbb031e19cee485) feat(exec): add CommandContext (#9)
+
 ## [v0.6.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.6.0) - 2025-06-28
 
 - [`8df2de9`](https://github.com/alexfalkowski/tausch/commit/8df2de95a01f330463881e4f7bc6b7c8bc0853c0) feat(flag): use a flag set (#8)
