@@ -8,10 +8,10 @@ import (
 )
 
 func TestConfigSuccess(t *testing.T) {
-	args := []string{"-config", "cfg.yaml", "test", "my", "code"}
+	args := []string{"-config", "cfg.yml", "test", "my", "code"}
 
 	c, err := flag.Config(args)
-	require.Equal(t, "cfg.yaml", c)
+	require.Equal(t, "cfg.yml", c)
 	require.NoError(t, err)
 
 	name := flag.Name()

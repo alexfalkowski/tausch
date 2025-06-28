@@ -8,7 +8,7 @@ import (
 )
 
 func TestDecodeSuccess(t *testing.T) {
-	c, err := config.Decode("../../test/configs/config.yaml")
+	c, err := config.Decode("../../test/configs/config.yml")
 
 	require.NoError(t, err)
 	require.NotNil(t, c)
@@ -16,8 +16,8 @@ func TestDecodeSuccess(t *testing.T) {
 
 func TestDecodeError(t *testing.T) {
 	values := []string{
-		"../../test/configs/none.yaml",
-		"../../test/configs/empty.yaml",
+		"../../test/configs/none.yml",
+		"../../test/configs/empty.yml",
 	}
 
 	for _, value := range values {

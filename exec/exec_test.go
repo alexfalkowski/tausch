@@ -8,11 +8,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func init() {
-	exec.Register("../tausch", "../test/configs/exec.yaml")
-}
-
 func TestCommandSuccess(t *testing.T) {
+	t.Setenv("TAUSCH_PATH", "../tausch")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+
 	b := &bytes.Buffer{}
 
 	cmd := exec.Command("go", "version")
@@ -25,6 +24,9 @@ func TestCommandSuccess(t *testing.T) {
 }
 
 func TestCommandError(t *testing.T) {
+	t.Setenv("TAUSCH_PATH", "../tausch")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+
 	b := &bytes.Buffer{}
 
 	cmd := exec.Command("go", "bob")
@@ -37,6 +39,9 @@ func TestCommandError(t *testing.T) {
 }
 
 func TestCommandContextSuccess(t *testing.T) {
+	t.Setenv("TAUSCH_PATH", "../tausch")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+
 	b := &bytes.Buffer{}
 
 	cmd := exec.CommandContext(t.Context(), "go", "version")
@@ -49,6 +54,9 @@ func TestCommandContextSuccess(t *testing.T) {
 }
 
 func TestCommandContextError(t *testing.T) {
+	t.Setenv("TAUSCH_PATH", "../tausch")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+
 	b := &bytes.Buffer{}
 
 	cmd := exec.CommandContext(t.Context(), "go", "bob")

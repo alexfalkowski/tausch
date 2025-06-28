@@ -20,7 +20,7 @@ func TestRunInvalidArgs(t *testing.T) {
 
 func TestRunMissingConfig(t *testing.T) {
 	args := []string{
-		"-config", "cfg.yaml",
+		"-config", "cfg.yml",
 		"--",
 		"test", "my", "code",
 	}
@@ -34,7 +34,7 @@ func TestRunMissingConfig(t *testing.T) {
 
 func TestRunMissingCommand(t *testing.T) {
 	args := []string{
-		"-config", "../../test/configs/config.yaml",
+		"-config", "../../test/configs/config.yml",
 		"--",
 		"test", "my", "code",
 	}
@@ -48,7 +48,7 @@ func TestRunMissingCommand(t *testing.T) {
 
 func TestRunStdout(t *testing.T) {
 	args := []string{
-		"-config", "../../test/configs/config.yaml",
+		"-config", "../../test/configs/config.yml",
 		"--",
 		"go", "version",
 	}
@@ -62,7 +62,7 @@ func TestRunStdout(t *testing.T) {
 
 func TestRunStderr(t *testing.T) {
 	args := []string{
-		"-config", "../../test/configs/config.yaml",
+		"-config", "../../test/configs/config.yml",
 		"--",
 		"go", "bob",
 	}

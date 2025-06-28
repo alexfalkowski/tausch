@@ -1,7 +1,10 @@
 package flag
 
 import (
+	"cmp"
 	"flag"
+	"os"
+	"path"
 	"strings"
 )
 
@@ -21,7 +24,18 @@ func Config(args []string) (string, error) {
 		return "", err
 	}
 
-	return file, nil
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+
+	config := cmp.Or(
+		file,
+		os.Getenv("TAUSCH_CONFIG"),
+		path.Join(home, ".config", "tausch.yml"),
+	)
+
+	return config, nil
 }
 
 // Name of the command.
