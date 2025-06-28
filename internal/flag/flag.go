@@ -5,20 +5,26 @@ import (
 	"strings"
 )
 
-var file string
+var (
+	flagSet *flag.FlagSet
+	file    string
+)
 
 func init() {
-	flag.StringVar(&file, "config", "", "the config file path")
+	flagSet = flag.NewFlagSet("tausch", flag.ContinueOnError)
+	flagSet.StringVar(&file, "config", "", "the config file path")
 }
 
 // Config file.
-func Config() string {
-	flag.Parse()
+func Config(args []string) (string, error) {
+	if err := flagSet.Parse(args); err != nil {
+		return "", err
+	}
 
-	return file
+	return file, nil
 }
 
 // Name of the command.
 func Name() string {
-	return strings.TrimSpace(strings.Join(flag.Args(), " "))
+	return strings.TrimSpace(strings.Join(flagSet.Args(), " "))
 }

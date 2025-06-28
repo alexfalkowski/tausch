@@ -9,8 +9,12 @@ import (
 )
 
 // Run will get the command and write to the specified writer.
-func Run(stdout, stderr io.Writer) (int, error) {
-	file := flag.Config()
+func Run(stdout, stderr io.Writer, args []string) (int, error) {
+	file, err := flag.Config(args)
+	if err != nil {
+		return 0, err
+	}
+
 	name := flag.Name()
 
 	config, err := config.Decode(file)
