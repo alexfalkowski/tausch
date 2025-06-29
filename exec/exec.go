@@ -27,8 +27,5 @@ func executable() string {
 }
 
 func args(name string, arg ...string) []string {
-	args := []string{"--", name}
-	args = append(args, arg...)
-
-	return args
+	return append([]string{"--", name}, arg...)
 }
