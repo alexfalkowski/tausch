@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.14.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.14.0) - 2025-06-29
+
+- [`3d1ee8c`](https://github.com/alexfalkowski/tausch/commit/3d1ee8cd55f31fac6078dd2906ef6c143f89ba65) feat(flag): ignore home err (#21)
+- [`7c30d31`](https://github.com/alexfalkowski/tausch/commit/7c30d3137a4ff296409a4e9e5f459afba7d8c4ae) docs(readme): fix sentence (#20)
+- [`6ca25ef`](https://github.com/alexfalkowski/tausch/commit/6ca25ef0e67edd1f8bacbde545aba4e9673718d7) docs(readme): add inspiration (#19)
+- [`4373c0c`](https://github.com/alexfalkowski/tausch/commit/4373c0c09e61e532ec8149dd5aa6e4ac4ba6d89d) docs(readme): add why section (#18)
+
 ## [v0.13.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.13.0) - 2025-06-29
 
 - [`15c9018`](https://github.com/alexfalkowski/tausch/commit/15c9018f1d0004adaa7198d6e184f069da71ce34) feat(exec): simplify expression (#17)
