@@ -24,11 +24,7 @@ func Config(args []string) (string, error) {
 		return "", err
 	}
 
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
-
+	home, _ := os.UserHomeDir()
 	config := cmp.Or(
 		file,
 		os.Getenv("TAUSCH_CONFIG"),
