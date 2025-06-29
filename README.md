@@ -48,6 +48,20 @@ So when updating the outputs when using this tool have a guided [Runbook](https:
 
 Though as you might realise it does not matter if you manage to verify/tests lots of combinations, you will miss something. This is why making sure that whatever you build you need to have [Observability](https://en.wikipedia.org/wiki/Observability_(software)) as a first class citizen.
 
+## Why?
+
+So you might be asking yourself, why should I use this solution?
+
+Some of these reasons I have encountered:
+
+- Commands can take a long time to run.
+- Dependency setup can be costly.
+- Simulating failure can be hard.
+
+As this is a single binary and ties into the already defined [cmd](https://pkg.go.dev/os/exec#Cmd) type in the defined stdlib.
+
+Of course you might not want another dependency, if that is the case then just copy the [code](https://github.com/alexfalkowski/tausch/blob/master/exec/exec.go).
+
 ## Configuration
 
 The configuration is just a list of `cmds` and wether you would like to write to `stdout` or `stderr`.
