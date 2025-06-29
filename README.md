@@ -62,6 +62,13 @@ As this is a single binary and ties into the already defined [cmd](https://pkg.g
 
 Of course you might not want another dependency, if that is the case then just copy the [code](https://github.com/alexfalkowski/tausch/blob/master/exec/exec.go).
 
+## Inspiration
+
+I have taken these ideas from using some past tools in my past, such as:
+
+- [vcr](https://github.com/vcr/vcr)
+- [go-vcr](https://github.com/dnaeon/go-vcr)
+
 ## Configuration
 
 The configuration is just a list of `cmds` and wether you would like to write to `stdout` or `stderr`.
