@@ -64,10 +64,12 @@ Of course you might not want another dependency, if that is the case then just c
 
 ## Inspiration
 
-I have taken these ideas from using some past tools in my past, such as:
+I have taken these ideas from using tools from my past, such as:
 
 - [vcr](https://github.com/vcr/vcr)
 - [go-vcr](https://github.com/dnaeon/go-vcr)
+
+Thank you for creating them.
 
 ## Configuration
 
