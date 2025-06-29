@@ -23,7 +23,7 @@ jobs:
     resource_class: large
   release:
     docker:
-      - image: alexfalkowski/release:3.26
+      - image: alexfalkowski/release:3.27
     working_directory: ~/tausch
     steps:
       - checkout
