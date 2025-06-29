@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.12.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.12.0) - 2025-06-29
+
+- [`96d5f52`](https://github.com/alexfalkowski/tausch/commit/96d5f5258015205d2b085318311eb859c2bf5979) feat(release): rename releaser to yml with new release step (#15)
+
 ## [v0.11.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.11.0) - 2025-06-29
 
 - [`0792a7e`](https://github.com/alexfalkowski/tausch/commit/0792a7e297638d85c70da92ecd286929cfdac8ba) feat(release): use yaml not yml (#14)
