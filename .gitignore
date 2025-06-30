@@ -4,3 +4,4 @@ vendor
 *.cov
 *.xml
 tausch
+dist
