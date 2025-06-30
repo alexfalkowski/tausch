@@ -12,11 +12,11 @@ This tool allows you to still call commands though just stub them out.
 
 ## Background
 
-Writing tools in the Unix/Linux world is a composition of many other tools. This is in a lot of ways is the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
+Writing tools in the Unix/Linux world is a composition of many other tools. This is in a lot of ways is the [unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
 
 Though as we start to write these scripts/tools we quickly realise that verifying they work is not easy. You might ask yourself how can we test these?
 
-If you have done some [Test-driven development](https://en.wikipedia.org/wiki/Test-driven_development), you might be wondering the same thing?
+If you have done some [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development), you might be wondering the same thing?
 
 Now the world of writing testable scripts has come a long way from when we first learned about [shell scripts](https://en.wikipedia.org/wiki/Shell_script).
 
@@ -38,7 +38,7 @@ All these projects are fine, though you might have some hard requirements or jus
 
 ## Drift
 
-As this tool just fakes the output of a command, how do we make sure that we stay compatible with what we record?
+As this tool just [stubs](http://xunitpatterns.com/Test%20Stub.html) the output of a command, how do we make sure that we stay compatible with what we record?
 
 Well this is a tough problem, though a problem regardless of this tool. As the tools you use will change in subtle (or not) and interesting ways.
 
