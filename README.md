@@ -34,7 +34,7 @@ Though as your codebase starts getting bigger, you start to question was this sc
 - [abs](https://github.com/abs-lang/abs)
 - [wren](https://github.com/wren-lang/wren)
 
-All these projects are fine, though you might have some hard requirements or just preferences and need to use [Go](https://go.dev/). If this is you, then this project might help.
+All these projects are fine, though you might have some hard requirements or just preferences and need to use [go](https://go.dev/). If this is you, then this project might help.
 
 ## Drift
 
@@ -42,11 +42,11 @@ As this tool just fakes the output of a command, how do we make sure that we sta
 
 Well this is a tough problem, though a problem regardless of this tool. As the tools you use will change in subtle (or not) and interesting ways.
 
-This is known as [dependency management problem](https://en.wikipedia.org/wiki/Dependency_hell). Upgrading dependencies need to be verified for compatibility. Practices like [Semantic Versioning](https://semver.org/) and [Pin exact dependency versions](https://betterdev.blog/pin-exact-dependency-versions/), might help ([wishful thinking](https://en.wikipedia.org/wiki/Wishful_thinking)).
+This is known as [dependency hell](https://en.wikipedia.org/wiki/Dependency_hell). Upgrading dependencies need to be verified for compatibility. Practices like [semantic Versioning](https://semver.org/) and to [pin exact dependency versions](https://betterdev.blog/pin-exact-dependency-versions/), will likely help or you might say that is [wishful thinking](https://en.wikipedia.org/wiki/Wishful_thinking).
 
-So when updating the outputs when using this tool have a guided [Runbook](https://en.wikipedia.org/wiki/Runbook) on how to manage these (or automate if you can).
+So managing the outputs needs a careful process. One ways it to have a [runbook](https://en.wikipedia.org/wiki/Runbook) or find a way run it periodically to record the output.
 
-Though as you might realise it does not matter if you manage to verify/tests lots of combinations, you will miss something. This is why making sure that whatever you build you need to have [Observability](https://en.wikipedia.org/wiki/Observability_(software)) as a first class citizen.
+Though as you might realise it does not matter if you manage to verify/tests lots of combinations, you will miss something. This is why making sure that whatever you build you need to have [observability](https://en.wikipedia.org/wiki/Observability_(software)) as a first class citizen.
 
 ## Why?
 
@@ -70,6 +70,9 @@ I have taken these ideas from using tools from my past, such as:
 - [go-vcr](https://github.com/dnaeon/go-vcr)
 
 Thank you for creating them.
+
+> [!NOTE]
+> One way to expand this tool in the future is to also run this once and record the outputs, if the need arises it will be added.
 
 ## Configuration
 
