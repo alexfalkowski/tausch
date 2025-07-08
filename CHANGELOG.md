@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.15.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.15.0) - 2025-07-08
+
+- [`da089b1`](https://github.com/alexfalkowski/tausch/commit/da089b1849a15823c28e9248c95df6d214f83804) feat(flag): use os.UserConfigDir (#26)
+- [`d0e91e9`](https://github.com/alexfalkowski/tausch/commit/d0e91e92a4d9d61ea8445568c35d187078548b83) build(ci): use alexfalkowski/go:2.37 (#25)
+- [`d07e781`](https://github.com/alexfalkowski/tausch/commit/d07e781ac86b8cb1e548138824d2fa66d568d78e) docs(readme): consistent naming (#24)
+- [`6e8b2a7`](https://github.com/alexfalkowski/tausch/commit/6e8b2a75c73fa32e09de9d65a565a889b88bdfcc) docs(readme): improve wording (#23)
+- [`54d3e67`](https://github.com/alexfalkowski/tausch/commit/54d3e67863e8c43f5ad8caf42bf50739c016cd4e) build(ci): ignore dist (#22)
+
 ## [v0.14.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.14.0) - 2025-06-29
 
 - [`3d1ee8c`](https://github.com/alexfalkowski/tausch/commit/3d1ee8cd55f31fac6078dd2906ef6c143f89ba65) feat(flag): ignore home err (#21)
