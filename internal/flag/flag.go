@@ -24,11 +24,15 @@ func Config(args []string) (string, error) {
 		return "", err
 	}
 
-	home, _ := os.UserHomeDir()
+	dir, err := os.UserConfigDir()
+	if err != nil {
+		return "", err
+	}
+
 	config := cmp.Or(
 		file,
 		os.Getenv("TAUSCH_CONFIG"),
-		path.Join(home, ".config", "tausch.yml"),
+		path.Join(dir, "tausch", "tausch.yml"),
 	)
 
 	return config, nil
