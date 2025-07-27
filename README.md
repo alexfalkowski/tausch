@@ -169,9 +169,6 @@ import (
   "github.com/alexfalkowski/tausch/exec"
 )
 
-cmd := exec.Command("go", "version")
-_ = cmd.Run()
-
 cmd := exec.CommandContext(context.Background(), "go", "version")
 _ = cmd.Run()
 ```
