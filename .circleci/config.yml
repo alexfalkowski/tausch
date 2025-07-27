@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: alexfalkowski/go:2.41
+      - image: alexfalkowski/go:2.43
     working_directory: ~/tausch
     steps:
       - checkout
@@ -21,26 +21,42 @@ jobs:
           path: test/reports
       - run: make codecov-upload
     resource_class: large
-  release:
+  version:
     docker:
-      - image: alexfalkowski/release:3.30
+      - image: alexfalkowski/release:5.1
     working_directory: ~/tausch
     steps:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init
-      - run: make pull
-      - run: release
+      - run: version
+    resource_class: large
+  package:
+    docker:
+      - image: alexfalkowski/release:5.1
+    working_directory: ~/tausch
+    steps:
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
+      - run: package
     resource_class: large
 
 workflows:
   tausch:
     jobs:
       - build
-      - release:
+      - version:
           context: gh
           requires:
             - build
+          filters:
+            branches:
+              only: master
+      - package:
+          context: gh
+          requires:
+            - version
           filters:
             branches:
               only: master

@@ -7,12 +7,7 @@ import (
 	"os/exec"
 )
 
-// Command will use tausch under the hood so it looks like you are using the same command.
-func Command(name string, arg ...string) *exec.Cmd {
-	return exec.Command(executable(), args(name, arg...)...)
-}
-
-// CommandContext is same as Command with a context.
+// CommandContext returns the [Cmd] struct to execute the named program with the given arguments.
 func CommandContext(ctx context.Context, name string, arg ...string) *exec.Cmd {
 	return exec.CommandContext(ctx, executable(), args(name, arg...)...)
 }
