@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.16.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.16.0) - 2025-07-27
+
+- [`2857ae6`](https://github.com/alexfalkowski/tausch/commit/2857ae63daf6358c41af0f0113420f4196c3f51f) feat(exec): only use CommandContext (#29)
+- [`d9c114d`](https://github.com/alexfalkowski/tausch/commit/d9c114d93db1683ed2380085fc45f5f86bb05f23) build(ci): use alexfalkowski/go:2.41 (#27)
+
 ## [v0.15.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.15.0) - 2025-07-08
 
 - [`da089b1`](https://github.com/alexfalkowski/tausch/commit/da089b1849a15823c28e9248c95df6d214f83804) feat(flag): use os.UserConfigDir (#26)
