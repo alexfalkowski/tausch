@@ -17,7 +17,7 @@ func TestPathCommandSuccess(t *testing.T) {
 
 	b := &bytes.Buffer{}
 
-	cmd := exec.Command("go", "version")
+	cmd := exec.CommandContext(t.Context(), "go", "version")
 	cmd.Stdout = b
 	cmd.Stderr = b
 
@@ -32,36 +32,6 @@ func TestCommandSuccess(t *testing.T) {
 
 	b := &bytes.Buffer{}
 
-	cmd := exec.Command("go", "version")
-	cmd.Stdout = b
-	cmd.Stderr = b
-
-	require.NoError(t, cmd.Run())
-	require.NoError(t, cmd.Err)
-	require.NotEmpty(t, b.Bytes())
-}
-
-func TestCommandError(t *testing.T) {
-	t.Setenv("TAUSCH_PATH", "../tausch")
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
-
-	b := &bytes.Buffer{}
-
-	cmd := exec.Command("go", "bob")
-	cmd.Stdout = b
-	cmd.Stderr = b
-
-	require.Error(t, cmd.Run())
-	require.NoError(t, cmd.Err)
-	require.NotEmpty(t, b.Bytes())
-}
-
-func TestCommandContextSuccess(t *testing.T) {
-	t.Setenv("TAUSCH_PATH", "../tausch")
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
-
-	b := &bytes.Buffer{}
-
 	cmd := exec.CommandContext(t.Context(), "go", "version")
 	cmd.Stdout = b
 	cmd.Stderr = b
@@ -71,7 +41,7 @@ func TestCommandContextSuccess(t *testing.T) {
 	require.NotEmpty(t, b.Bytes())
 }
 
-func TestCommandContextError(t *testing.T) {
+func TestCommandError(t *testing.T) {
 	t.Setenv("TAUSCH_PATH", "../tausch")
 	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
 
