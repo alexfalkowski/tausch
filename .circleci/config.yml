@@ -21,26 +21,15 @@ jobs:
           path: test/reports
       - run: make codecov-upload
     resource_class: large
-  version:
+  release:
     docker:
-      - image: alexfalkowski/release:5.1
+      - image: alexfalkowski/release:5.2
     working_directory: ~/tausch
     steps:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init
-      - run: make pull
       - run: version
-    resource_class: large
-  package:
-    docker:
-      - image: alexfalkowski/release:5.1
-    working_directory: ~/tausch
-    steps:
-      - checkout
-      - run: git submodule sync
-      - run: git submodule update --init
-      - run: make pull
       - run: package
     resource_class: large
 
@@ -48,17 +37,10 @@ workflows:
   tausch:
     jobs:
       - build
-      - version:
+      - release:
           context: gh
           requires:
             - build
-          filters:
-            branches:
-              only: master
-      - package:
-          context: gh
-          requires:
-            - version
           filters:
             branches:
               only: master
