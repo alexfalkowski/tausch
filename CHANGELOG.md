@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.18.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.18.0) - 2025-08-05
+
+- [`16d3c0c`](https://github.com/alexfalkowski/tausch/commit/16d3c0c8d9c90d8d14547748785635951d092db2) feat(style): remove extra new lines (#36)
+- [`6ebf883`](https://github.com/alexfalkowski/tausch/commit/6ebf88373a8736e3b67e34679f757d727ec78d6c) build(ci): use latest published images (#35)
+- [`bad94e4`](https://github.com/alexfalkowski/tausch/commit/bad94e45a00cf9970ff975b06382c68dc63ae862) build(ci): use latest published images (#34)
+- [`7d9bbef`](https://github.com/alexfalkowski/tausch/commit/7d9bbef7b5c4d90feb514e1a72464d2d15b95d5f) build(ci): update submodule (#33)
+- [`ad257c5`](https://github.com/alexfalkowski/tausch/commit/ad257c5158ff669a4e50959ac6edf9d6ec4ba003) build(ci): use latest published images (#32)
+
 ## [v0.17.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.17.0) - 2025-07-27
 
 - [`5d86d80`](https://github.com/alexfalkowski/tausch/commit/5d86d80b1144a3929162481746bfba16b54a0dfd) feat(readme): only use exec.CommandContext (#31)
