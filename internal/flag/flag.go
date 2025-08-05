@@ -34,7 +34,6 @@ func Config(args []string) (string, error) {
 		os.Getenv("TAUSCH_CONFIG"),
 		path.Join(dir, "tausch", "tausch.yml"),
 	)
-
 	return config, nil
 }
 
