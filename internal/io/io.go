@@ -21,6 +21,5 @@ func Write(w io.Writer, data string) (bool, error) {
 	}
 
 	_, err = w.Write(d)
-
 	return true, err
 }

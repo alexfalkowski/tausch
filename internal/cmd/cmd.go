@@ -15,13 +15,12 @@ func Run(stdout, stderr io.Writer, args []string) (int, error) {
 		return 0, err
 	}
 
-	name := flag.Name()
-
 	config, err := config.Decode(file)
 	if err != nil {
 		return 0, err
 	}
 
+	name := flag.Name()
 	command, err := config.GetCommand(name)
 	if err != nil {
 		return 0, fmt.Errorf("find %s: %w", name, err)
@@ -33,6 +32,5 @@ func Run(stdout, stderr io.Writer, args []string) (int, error) {
 	}
 
 	_, err = io.Write(stderr, command.Stderr)
-
 	return 1, err
 }

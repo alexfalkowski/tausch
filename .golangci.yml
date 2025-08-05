@@ -16,6 +16,7 @@ linters:
     - mnd
     - nakedret
     - nilnil
+    - nlreturn
     - noinlineerr
     - nonamedreturns
     - paralleltest
@@ -25,16 +26,13 @@ linters:
     - varnamelen
     - wrapcheck
     - wsl
+    - wsl_v5
   settings:
     lll:
       line-length: 120
     gosec:
       excludes:
         - G204
-    wsl_v5:
-      allow-first-in-block: true
-      allow-whole-block: false
-      branch-max-lines: 2
   exclusions:
     generated: lax
     presets:
