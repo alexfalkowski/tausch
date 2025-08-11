@@ -32,7 +32,7 @@ func Config(args []string) (string, error) {
 	config := cmp.Or(
 		file,
 		os.Getenv("TAUSCH_CONFIG"),
-		path.Join(dir, "tausch", "tausch.yml"),
+		path.Join(dir, "tausch", "config.yml"),
 	)
 	return config, nil
 }
