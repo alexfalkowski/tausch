@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.19.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.19.0) - 2025-08-11
+
+- [`5123538`](https://github.com/alexfalkowski/tausch/commit/5123538ecbaffc25f92024c8f773997de301df33) feat(flag): use config.yml (#39)
+- [`e7d836f`](https://github.com/alexfalkowski/tausch/commit/e7d836f22c57943b720a3e90b80ff1bed8f9af3a) build(ci): use latest published images (#38)
+- [`ffea8ad`](https://github.com/alexfalkowski/tausch/commit/ffea8ad365cd6a3d9fc972a4d099066176886130) build(ci): use latest published images (#37)
+
 ## [v0.18.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.18.0) - 2025-08-05
 
 - [`16d3c0c`](https://github.com/alexfalkowski/tausch/commit/16d3c0c8d9c90d8d14547748785635951d092db2) feat(style): remove extra new lines (#36)
