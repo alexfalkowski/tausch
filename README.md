@@ -127,7 +127,7 @@ The executable will read the config from the following places:
 
 - `-config` - argument with a path.
 - `TAUSCH_CONFIG` - from an env variable.
-- `$HOME/.config/tausch.yml` - The config can be placed a well known config folder.
+- `$HOME/.config/tausch/config.yml` - The config can be placed a well known config folder.
 
 #### exec.CommandContext
 
