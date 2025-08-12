@@ -10,7 +10,12 @@ import (
 
 // Run will get the command and write to the specified writer.
 func Run(stdout, stderr io.Writer, args []string) (int, error) {
-	file, err := flag.Config(args)
+	f, err := flag.NewValues(args)
+	if err != nil {
+		return 0, err
+	}
+
+	file, err := f.Config()
 	if err != nil {
 		return 0, err
 	}
@@ -20,7 +25,7 @@ func Run(stdout, stderr io.Writer, args []string) (int, error) {
 		return 0, err
 	}
 
-	name := flag.Name()
+	name := f.Name()
 	command, err := config.GetCommand(name)
 	if err != nil {
 		return 0, fmt.Errorf("find %s: %w", name, err)
