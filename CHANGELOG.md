@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.21.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.21.0) - 2025-08-12
+
+- [`9c5105d`](https://github.com/alexfalkowski/tausch/commit/9c5105da00c94306ea1e8c7ea27e0ac3b1101087) feat(flag): move to values (#41)
+
 ## [v0.20.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.20.0) - 2025-08-12
 
 - [`3df5ace`](https://github.com/alexfalkowski/tausch/commit/3df5ace0db2b39491f49e744adf0e8245fae7fbb) feat(flag): use flag.CommandLine (#40)
