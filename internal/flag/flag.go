@@ -8,19 +8,16 @@ import (
 	"strings"
 )
 
-var (
-	flagSet *flag.FlagSet
-	file    string
-)
+var file string
 
 func init() {
-	flagSet = flag.NewFlagSet("tausch", flag.ContinueOnError)
-	flagSet.StringVar(&file, "config", "", "the config file path")
+	flag.CommandLine.Init("tausch", flag.ContinueOnError)
+	flag.CommandLine.StringVar(&file, "config", "", "the config file path")
 }
 
 // Config file.
 func Config(args []string) (string, error) {
-	if err := flagSet.Parse(args); err != nil {
+	if err := flag.CommandLine.Parse(args); err != nil {
 		return "", err
 	}
 
@@ -39,5 +36,5 @@ func Config(args []string) (string, error) {
 
 // Name of the command.
 func Name() string {
-	return strings.TrimSpace(strings.Join(flagSet.Args(), " "))
+	return strings.TrimSpace(strings.Join(flag.CommandLine.Args(), " "))
 }
