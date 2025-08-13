@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// NewValues parses the args and extracts the config file and command name.
-func NewValues(args []string) (*Values, error) {
+// Parse parses the args and extracts the config file and command name.
+func Parse(args []string) (*Values, error) {
 	set := flag.NewFlagSet("tausch", flag.ContinueOnError)
 
 	file := set.String("config", "", "the config file path")
