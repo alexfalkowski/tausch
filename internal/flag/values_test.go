@@ -10,7 +10,7 @@ import (
 func TestValuesSuccess(t *testing.T) {
 	args := []string{"-config", "cfg.yml", "test", "my", "code"}
 
-	f, err := flag.NewValues(args)
+	f, err := flag.Parse(args)
 	require.NoError(t, err)
 
 	c, err := f.Config()
@@ -24,6 +24,6 @@ func TestValuesSuccess(t *testing.T) {
 func TestValuesError(t *testing.T) {
 	args := []string{"- x"}
 
-	_, err := flag.NewValues(args)
+	_, err := flag.Parse(args)
 	require.Error(t, err)
 }

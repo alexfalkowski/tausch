@@ -10,7 +10,7 @@ import (
 
 // Run will get the command and write to the specified writer.
 func Run(stdout, stderr io.Writer, args []string) (int, error) {
-	f, err := flag.NewValues(args)
+	f, err := flag.Parse(args)
 	if err != nil {
 		return 0, err
 	}
