@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.23.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.23.0) - 2025-08-15
+
+- [`6bd5f15`](https://github.com/alexfalkowski/tausch/commit/6bd5f155998b97cd63f9067b70850e6cb6419c7d) feat(go): update to v1.25.0 (#43)
+- [`eed2046`](https://github.com/alexfalkowski/tausch/commit/eed2046aaab18e79480aa0465340d6f5de2d703d) build(ci): use latest published images (#44)
+
 ## [v0.22.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.22.0) - 2025-08-13
 
 - [`1a3a89f`](https://github.com/alexfalkowski/tausch/commit/1a3a89f13d460505630e0dcf25bfd1731f8fabb7) feat(flag): rename to parse (#42)
