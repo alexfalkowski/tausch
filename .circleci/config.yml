@@ -6,7 +6,8 @@ jobs:
       - image: alexfalkowski/go:2.65
     working_directory: ~/tausch
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: make dep
@@ -26,7 +27,8 @@ jobs:
       - image: alexfalkowski/release:5.16
     working_directory: ~/tausch
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: version
