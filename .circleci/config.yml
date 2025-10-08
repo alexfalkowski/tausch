@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: alexfalkowski/go:2.65
+      - image: alexfalkowski/go:2.66
     working_directory: ~/tausch
     steps:
       - checkout:
@@ -24,7 +24,7 @@ jobs:
     resource_class: large
   release:
     docker:
-      - image: alexfalkowski/release:5.16
+      - image: alexfalkowski/release:5.17
     working_directory: ~/tausch
     steps:
       - checkout:
