@@ -10,11 +10,44 @@ jobs:
           method: blobless
       - run: git submodule sync
       - run: git submodule update --init
+      - run: make source-key
+      - restore_cache:
+          name: restore go cache
+          keys:
+            - tausch-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - tausch-go-cache-
+      - run: make clean
       - run: make dep
-      - run: make build
+      - save_cache:
+          name: save go cache
+          key: tausch-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+          paths:
+            - ~/go/pkg/mod
+      - restore_cache:
+          name: restore go build cache
+          keys:
+            - tausch-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - tausch-go-build-cache-
+      - restore_cache:
+          name: restore go lint cache
+          keys:
+            - tausch-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}-{{ checksum ".source-key" }}
+            - tausch-go-lint-cache-
+      - run: make clean
       - run: make lint
+      - save_cache:
+          name: save go lint cache
+          key: tausch-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}-{{ checksum ".source-key" }}
+          paths:
+            - ~/.cache/golangci-lint
       - run: make sec
+      - run: make build
       - run: make specs
+      - save_cache:
+          name: save go build cache
+          key: tausch-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+          paths:
+            - ~/.cache/go-build
       - run: make coverage
       - store_test_results:
           path: test/reports
@@ -22,7 +55,7 @@ jobs:
           path: test/reports
       - run: make codecov-upload
     resource_class: large
-  release:
+  version:
     docker:
       - image: alexfalkowski/release:5.17
     working_directory: ~/tausch
@@ -37,9 +70,10 @@ jobs:
 
 workflows:
   tausch:
+    max_auto_reruns: 3
     jobs:
       - build
-      - release:
+      - version:
           context: gh
           requires:
             - build
