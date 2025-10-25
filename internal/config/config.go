@@ -5,7 +5,7 @@ import (
 	"os"
 	"slices"
 
-	"github.com/goccy/go-yaml"
+	"go.yaml.in/yaml/v3"
 )
 
 // ErrCommandNotFound for config.
