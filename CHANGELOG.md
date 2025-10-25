@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.24.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.24.0) - 2025-10-25
+
+- [`e14c161`](https://github.com/alexfalkowski/tausch/commit/e14c1617ffd211730feb8f5fe04aee191c6dde0c) feat(deps): use go.yaml.in/yaml/v3 v3.0.4 (#63)
+- [`b84fa00`](https://github.com/alexfalkowski/tausch/commit/b84fa007233b22a5628ab32125a93a8615d3174a) build(ci): use latest published images (#62)
+- [`62c3104`](https://github.com/alexfalkowski/tausch/commit/62c3104e4c72fc08bd6095ebc755b75a56627c3f) build(ci): use latest published images (#61)
+- [`9d00c92`](https://github.com/alexfalkowski/tausch/commit/9d00c9203560cc3883fb52c9f865327e7e31e31c) build(ci): use latest published images (#60)
+- [`61019d6`](https://github.com/alexfalkowski/tausch/commit/61019d68cd251638f73f95bc18429799ae9b7dcc) build(ci): use latest published images (#59)
+- [`4836019`](https://github.com/alexfalkowski/tausch/commit/483601940680faea91fb93b5a589b99ee8439e0c) build(ci): use latest published images (#58)
+- [`e2b31ee`](https://github.com/alexfalkowski/tausch/commit/e2b31ee5bf83846826e8013c05772dfca217a908) build(ci): add caching (#57)
+- [`b513a39`](https://github.com/alexfalkowski/tausch/commit/b513a39dcda1282bd1436b09fa45d44fbe3e2bac) build(ci): use latest published images (#56)
+- [`a63531c`](https://github.com/alexfalkowski/tausch/commit/a63531cf8f78466be7570d1a9196221850cb8ca5) build(ci): use blobless (#55)
+- [`2424d29`](https://github.com/alexfalkowski/tausch/commit/2424d29d9c69802febc98b46ed23b45c005d064f) build(ci): use latest published images (#54)
+- [`2e68b3e`](https://github.com/alexfalkowski/tausch/commit/2e68b3e125039824f1ccfc67650db525574c93fc) build(ci): use latest published images (#53)
+- [`daa8764`](https://github.com/alexfalkowski/tausch/commit/daa87647d4b4e88fd69d807360670fa69af5d5e7) build(ci): use latest published images (#52)
+- [`6c27bdf`](https://github.com/alexfalkowski/tausch/commit/6c27bdfc487561fb0705eb8b329cbd25c05698bc) build(ci): use latest published images (#51)
+- [`3175325`](https://github.com/alexfalkowski/tausch/commit/31753257e9376319df627d31d9a9f8dfc4c310ec) build(ci): use latest published images (#50)
+- [`4b2866d`](https://github.com/alexfalkowski/tausch/commit/4b2866d98c9fc9cbb096df26e42676066fbe4173) build(ci): use latest published images (#49)
+- [`c0945d4`](https://github.com/alexfalkowski/tausch/commit/c0945d41d3848951226db23931bce7ec26373a10) build(ci): use latest published images (#48)
+- [`57ac0e2`](https://github.com/alexfalkowski/tausch/commit/57ac0e282f7fb458af0cd404ad3363fe1fb764d6) build(ci): use latest published images (#47)
+- [`1f7df0e`](https://github.com/alexfalkowski/tausch/commit/1f7df0e33386edfb9d538ef2a5be376a5f9cac8c) build(ci): use latest published images (#46)
+- [`522ab17`](https://github.com/alexfalkowski/tausch/commit/522ab17ed661b48426993211335f4ec494d89253) build(ci): use latest published images (#45)
+
 ## [v0.23.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.23.0) - 2025-08-15
 
 - [`6bd5f15`](https://github.com/alexfalkowski/tausch/commit/6bd5f155998b97cd63f9067b70850e6cb6419c7d) feat(go): update to v1.25.0 (#43)
