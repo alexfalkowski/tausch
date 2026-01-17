@@ -17,6 +17,7 @@ func Decode(path string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
 	var config Config
 	if err := yaml.NewDecoder(f).Decode(&config); err != nil {
@@ -28,7 +29,7 @@ func Decode(path string) (*Config, error) {
 
 // Config for tausch.
 type Config struct {
-	Cmds []*Command `json:"cmds"`
+	Cmds []*Command `yaml:"cmds"`
 }
 
 // GetCommand by name.
@@ -43,7 +44,7 @@ func (c *Config) GetCommand(name string) (*Command, error) {
 
 // Command for config.
 type Command struct {
-	Name   string `json:"name"`
-	Stdout string `json:"stdout"`
-	Stderr string `json:"stderr"`
+	Name   string `yaml:"name"`
+	Stdout string `yaml:"stdout"`
+	Stderr string `yaml:"stderr"`
 }
