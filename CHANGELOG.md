@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.26.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.26.0) - 2026-02-12
+
+- [`b12afe4`](https://github.com/alexfalkowski/tausch/commit/b12afe488dfe67a322d1754f0cdcd8918bca33b3) feat(go): use go v1.26 (#119)
+- [`bbe2e5c`](https://github.com/alexfalkowski/tausch/commit/bbe2e5c31aa77342745b2fdf426fef314c182d7f) build(ci): use arm.large (#118)
+- [`97a872e`](https://github.com/alexfalkowski/tausch/commit/97a872e1f17e50d183c496d44cab3f4538d41b0d) build(ci): use latest published images (#117)
+- [`1ae4b93`](https://github.com/alexfalkowski/tausch/commit/1ae4b939eb977c3adfff82b59947f5af62a99af8) build(ci): use latest published images (#116)
+- [`eb20200`](https://github.com/alexfalkowski/tausch/commit/eb20200ef52260f54449d6b5b19a63ad9d307c36) build(ci): use latest published images (#115)
+- [`dc6e7f3`](https://github.com/alexfalkowski/tausch/commit/dc6e7f31cb7becdba8a5c80e34bc1de6dc8408e2) build(ci): use latest published images (#114)
+- [`7081a91`](https://github.com/alexfalkowski/tausch/commit/7081a91f2e4fc13b2c755d75f043704e667aa80a) build(ci): use latest published images (#113)
+- [`98e82ba`](https://github.com/alexfalkowski/tausch/commit/98e82ba5b4ee3c970e1e918e4dbc2a799e91c4c8) build(ci): use latest published images (#112)
+- [`dd7e1b7`](https://github.com/alexfalkowski/tausch/commit/dd7e1b76159743add91625a4cf5371ea64de011b) build(ci): use latest published images (#111)
+- [`8b33688`](https://github.com/alexfalkowski/tausch/commit/8b33688bcbf6add5517008736c97a16a971d4812) build(ci): use latest published images (#110)
+- [`c036cb4`](https://github.com/alexfalkowski/tausch/commit/c036cb4d6e55fe3c4232b8dde477eca95184be90) build(ci): use latest published images (#109)
+- [`429f898`](https://github.com/alexfalkowski/tausch/commit/429f8988a053e58e2543db632445a920d4c591c7) build(ci): use latest published images (#108)
+- [`5a8f6e2`](https://github.com/alexfalkowski/tausch/commit/5a8f6e2f77f0f510b0773236489bc28d52fa6744) build(deps): upgraded github.com/alexfalkowski/bin (#107)
+
 ## [v0.25.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.25.0) - 2026-01-17
 
 - [`9422c40`](https://github.com/alexfalkowski/tausch/commit/9422c409c654238dd1f9b2ca75dd147f84ec711a) feat(config): use yaml tags (#106)
