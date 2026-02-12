@@ -1,6 +1,6 @@
 module github.com/alexfalkowski/tausch
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/stretchr/testify v1.10.0
