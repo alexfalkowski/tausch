@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.27.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.27.0) - 2026-03-01
+
+- [`9f68af3`](https://github.com/alexfalkowski/tausch/commit/9f68af3b0c27f6029e249d80cf5a1967f97d916f) feat(docs): more accurate and detailed (#131)
+- [`b836a32`](https://github.com/alexfalkowski/tausch/commit/b836a3225d79cf9d9450478373c7aa6e0e729d57) build(ci): use latest published images (#130)
+- [`5914637`](https://github.com/alexfalkowski/tausch/commit/5914637264501983620dba0c1af4e0501d0d2fcd) build(ci): use latest published images (#129)
+- [`4f93d49`](https://github.com/alexfalkowski/tausch/commit/4f93d49acb7049d947cbdb227b3ce9b92e25ef39) build(ci): use latest published images (#128)
+- [`bae21d0`](https://github.com/alexfalkowski/tausch/commit/bae21d0d2e02288ed3fa28d7c287270fe98c77d9) build(ci): use latest published images (#127)
+- [`49bb3f6`](https://github.com/alexfalkowski/tausch/commit/49bb3f6d405f29490f4b81d0a541f449ae52f02c) build(deps): upgraded github.com/alexfalkowski/bin (#126)
+- [`aa181cc`](https://github.com/alexfalkowski/tausch/commit/aa181cc9c349fd640c8d20818120f5bfeec9a765) build(deps): upgraded github.com/alexfalkowski/bin (#125)
+- [`766d8f4`](https://github.com/alexfalkowski/tausch/commit/766d8f4a9a7b777fc38558e3583ab6c5070f2b5c) build(ci): use latest published images (#124)
+- [`b34fd5d`](https://github.com/alexfalkowski/tausch/commit/b34fd5de363a0cd86137cd46dbe476a5e7c84326) build(ci): use latest published images (#123)
+- [`e1918b3`](https://github.com/alexfalkowski/tausch/commit/e1918b3b759a3029dad3fe1ac849f95930605aaf) build(ci): use latest published images (#122)
+- [`c850412`](https://github.com/alexfalkowski/tausch/commit/c850412990711045e4c0400f078d5b5377427429) build(ci): use latest published images (#121)
+- [`f620895`](https://github.com/alexfalkowski/tausch/commit/f620895a1b9fb14a463717d1710bdddb555b3330) build(ci): use latest published images (#120)
+
 ## [v0.26.0](https://github.com/alexfalkowski/tausch/releases/tag/v0.26.0) - 2026-02-12
 
 - [`b12afe4`](https://github.com/alexfalkowski/tausch/commit/b12afe488dfe67a322d1754f0cdcd8918bca33b3) feat(go): use go v1.26 (#119)
