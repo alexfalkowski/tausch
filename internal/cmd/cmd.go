@@ -29,41 +29,55 @@ import (
 //
 // Run returns an integer exit code intended to be used as the process exit code:
 //
+//   - If argument parsing fails, the flag package writes usage/error output to
+//     stderr and Run returns 1.
+//   - If config resolution, config decoding, command lookup, or stdout/stderr
+//     decode/write steps fail, Run writes the error to stderr and returns 1.
 //   - If the command's configured `stdout` is non-empty and is successfully
-//     written, Run returns (0, nil).
-//   - Otherwise, Run attempts to write the configured `stderr` and returns
-//     (1, err) where err is any error from decoding or writing stderr.
+//     written, Run returns 0.
+//   - Otherwise, Run writes the configured `stderr` payload and returns 1.
 //
-// Any error encountered while parsing flags, resolving the config path, decoding
-// YAML, or looking up the command is returned with an exit code of 0 (callers
-// should treat a non-nil error as failure regardless of the code).
-func Run(stdout, stderr io.Writer, args []string) (int, error) {
+// Run owns user-facing error output for the CLI flow; callers should treat the
+// returned status code as the complete result.
+func Run(stdout, stderr io.Writer, args []string) int {
 	f, err := flag.Parse(stderr, args)
 	if err != nil {
-		return 0, err
+		return 1
 	}
 
 	file, err := f.Config()
 	if err != nil {
-		return 0, err
+		fmt.Fprintln(stderr, err)
+		return 1
 	}
 
 	config, err := config.Decode(file)
 	if err != nil {
-		return 0, err
+		fmt.Fprintln(stderr, err)
+		return 1
 	}
 
 	name := f.Name()
 	command, err := config.GetCommand(name)
 	if err != nil {
-		return 0, fmt.Errorf("find %s: %w", name, err)
+		fmt.Fprintln(stderr, fmt.Errorf("find %s: %w", name, err))
+		return 1
 	}
 
 	ok, err := io.Write(stdout, command.Stdout)
-	if err != nil || ok {
-		return 0, err
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return 1
+	}
+
+	if ok {
+		return 0
 	}
 
 	_, err = io.Write(stderr, command.Stderr)
-	return 1, err
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+	}
+
+	return 1
 }
