@@ -1,0 +1,3 @@
+cmds:
+  - name: go version
+    stdout: "base64:!!!"
