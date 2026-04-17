@@ -2,6 +2,13 @@
 
 This repository is a small Go CLI + library that stubs command execution output based on a YAML config.
 
+## Shared skill
+
+Use the shared `coding-standards` skill from `./bin/skills/coding-standards`
+for cross-repository coding, review, testing, documentation, and PR
+conventions. Treat this `AGENTS.md` as the repo-specific companion to that
+skill.
+
 ## Quick start (local)
 
 ### Prereqs
