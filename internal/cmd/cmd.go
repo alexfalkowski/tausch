@@ -38,7 +38,7 @@ import (
 // YAML, or looking up the command is returned with an exit code of 0 (callers
 // should treat a non-nil error as failure regardless of the code).
 func Run(stdout, stderr io.Writer, args []string) (int, error) {
-	f, err := flag.Parse(args)
+	f, err := flag.Parse(stderr, args)
 	if err != nil {
 		return 0, err
 	}

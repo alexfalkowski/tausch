@@ -5,3 +5,5 @@ vendor
 *.xml
 tausch
 dist
+test/reports/coverage.html
+.source-key

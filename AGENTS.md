@@ -13,7 +13,7 @@ skill.
 
 ### Prereqs
 
-- Go toolchain: `go.mod` declares `go 1.25.0`.
+- Go toolchain: `go.mod` declares `go 1.26.0`.
 - Some Make targets come from the `bin/` git submodule (see `.gitmodules`). If targets fail with missing files, initialize the submodule first:
 
 ```bash
