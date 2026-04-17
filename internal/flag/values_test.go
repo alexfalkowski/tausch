@@ -1,6 +1,7 @@
 package flag_test
 
 import (
+	"io"
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/flag"
@@ -10,7 +11,7 @@ import (
 func TestValuesSuccess(t *testing.T) {
 	args := []string{"-config", "cfg.yml", "test", "my", "code"}
 
-	f, err := flag.Parse(args)
+	f, err := flag.Parse(io.Discard, args)
 	require.NoError(t, err)
 
 	c, err := f.Config()
@@ -24,6 +25,6 @@ func TestValuesSuccess(t *testing.T) {
 func TestValuesError(t *testing.T) {
 	args := []string{"- x"}
 
-	_, err := flag.Parse(args)
+	_, err := flag.Parse(io.Discard, args)
 	require.Error(t, err)
 }

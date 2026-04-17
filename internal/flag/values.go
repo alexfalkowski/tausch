@@ -3,6 +3,7 @@ package flag
 import (
 	"cmp"
 	"flag"
+	"io"
 	"os"
 	"path"
 	"strings"
@@ -12,6 +13,7 @@ import (
 //
 // Parsing uses a dedicated FlagSet configured with flag.ContinueOnError, so
 // parsing errors are returned to the caller rather than terminating the process.
+// Any parse error or usage output produced by the FlagSet is written to output.
 //
 // The tausch CLI is typically invoked as:
 //
@@ -19,8 +21,9 @@ import (
 //
 // After parsing flags, the remaining arguments (typically those after `--`) are
 // preserved and used to derive the command name via [Values.Name].
-func Parse(args []string) (*Values, error) {
+func Parse(output io.Writer, args []string) (*Values, error) {
 	set := flag.NewFlagSet("tausch", flag.ContinueOnError)
+	set.SetOutput(output)
 
 	file := set.String("config", "", "the config file path")
 	if err := set.Parse(args); err != nil {

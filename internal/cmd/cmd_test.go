@@ -10,12 +10,15 @@ import (
 
 func TestRunInvalidArgs(t *testing.T) {
 	args := []string{"- x"}
-	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b, args)
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	c, err := cmd.Run(stdout, stderr, args)
 
 	require.Error(t, err)
 	require.Zero(t, c)
-	require.Empty(t, b.Bytes())
+	require.Empty(t, stdout.Bytes())
+	require.Contains(t, stderr.String(), "flag provided but not defined")
+	require.Contains(t, stderr.String(), "Usage of tausch:")
 }
 
 func TestRunMissingConfig(t *testing.T) {
@@ -24,12 +27,14 @@ func TestRunMissingConfig(t *testing.T) {
 		"--",
 		"test", "my", "code",
 	}
-	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b, args)
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	c, err := cmd.Run(stdout, stderr, args)
 
 	require.Error(t, err)
 	require.Zero(t, c)
-	require.Empty(t, b.Bytes())
+	require.Empty(t, stdout.Bytes())
+	require.Empty(t, stderr.Bytes())
 }
 
 func TestRunMissingCommand(t *testing.T) {
@@ -38,12 +43,14 @@ func TestRunMissingCommand(t *testing.T) {
 		"--",
 		"test", "my", "code",
 	}
-	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b, args)
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	c, err := cmd.Run(stdout, stderr, args)
 
 	require.Error(t, err)
 	require.Zero(t, c)
-	require.Empty(t, b.Bytes())
+	require.Empty(t, stdout.Bytes())
+	require.Empty(t, stderr.Bytes())
 }
 
 func TestRunStdout(t *testing.T) {
@@ -52,12 +59,14 @@ func TestRunStdout(t *testing.T) {
 		"--",
 		"go", "version",
 	}
-	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b, args)
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	c, err := cmd.Run(stdout, stderr, args)
 
 	require.NoError(t, err)
 	require.Zero(t, c)
-	require.NotEmpty(t, b.Bytes())
+	require.NotEmpty(t, stdout.Bytes())
+	require.Empty(t, stderr.Bytes())
 }
 
 func TestRunStderr(t *testing.T) {
@@ -66,10 +75,12 @@ func TestRunStderr(t *testing.T) {
 		"--",
 		"go", "bob",
 	}
-	b := &bytes.Buffer{}
-	c, err := cmd.Run(b, b, args)
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	c, err := cmd.Run(stdout, stderr, args)
 
 	require.NoError(t, err)
 	require.Equal(t, 1, c)
-	require.NotEmpty(t, b.Bytes())
+	require.Empty(t, stdout.Bytes())
+	require.NotEmpty(t, stderr.Bytes())
 }

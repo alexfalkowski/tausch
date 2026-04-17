@@ -133,8 +133,8 @@ The executable will read the config from the following places:
 
 Using the library will look for the executable in the following places:
 
-- `TAUSCH_PATH` - the path of the binary.
-- `$PATH`: - finds the executable provided in the path.
+- `$PATH` - finds the executable provided in the path.
+- `TAUSCH_PATH` - the path of the binary if `tausch` is not found on `PATH`.
 
 ### Command
 
