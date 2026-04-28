@@ -61,7 +61,9 @@ type Config struct {
 //
 // If no command matches, the error will be [ErrCommandNotFound].
 func (c *Config) GetCommand(name string) (*Command, error) {
-	i := slices.IndexFunc(c.Cmds, func(c *Command) bool { return c.Name == name })
+	i := slices.IndexFunc(c.Cmds, func(command *Command) bool {
+		return command != nil && command.Name == name
+	})
 	if i == -1 {
 		return nil, ErrCommandNotFound
 	}

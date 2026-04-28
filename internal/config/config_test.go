@@ -27,3 +27,12 @@ func TestDecodeError(t *testing.T) {
 		require.Nil(t, c)
 	}
 }
+
+func TestGetCommandNilCommand(t *testing.T) {
+	c := &config.Config{Cmds: []*config.Command{nil}}
+
+	command, err := c.GetCommand("go version")
+
+	require.Nil(t, command)
+	require.ErrorIs(t, err, config.ErrCommandNotFound)
+}
