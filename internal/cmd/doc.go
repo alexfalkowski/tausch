@@ -30,7 +30,7 @@
 //
 // # Exit codes
 //
-// [Run] returns an integer exit code and an error.
+// [Run] returns an integer exit code.
 //
 // In normal operation:
 //
@@ -39,7 +39,7 @@
 //   - Otherwise, it attempts to write the configured `stderr` value and returns
 //     exit code 1.
 //
-// Errors are returned for failures such as flag parsing problems, missing or
-// unreadable configuration, YAML decoding errors, command lookup failures, or
-// decode/write errors while emitting stdout/stderr.
+// Failures such as flag parsing problems, missing or unreadable configuration,
+// YAML decoding errors, command lookup failures, or decode/write errors while
+// emitting stdout/stderr are written to stderr and reported with exit code 1.
 package cmd
