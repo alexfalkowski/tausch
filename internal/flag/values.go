@@ -1,7 +1,6 @@
 package flag
 
 import (
-	"cmp"
 	"flag"
 	"io"
 	"os"
@@ -55,17 +54,20 @@ type Values struct {
 // callers should expect failures when opening/decoding the file if the path is
 // invalid.
 func (f *Values) Config() (string, error) {
+	if f.file != "" {
+		return f.file, nil
+	}
+
+	if config := os.Getenv("TAUSCH_CONFIG"); config != "" {
+		return config, nil
+	}
+
 	dir, err := os.UserConfigDir()
 	if err != nil {
 		return "", err
 	}
 
-	config := cmp.Or(
-		f.file,
-		os.Getenv("TAUSCH_CONFIG"),
-		path.Join(dir, "tausch", "config.yml"),
-	)
-	return config, nil
+	return path.Join(dir, "tausch", "config.yml"), nil
 }
 
 // Name returns the command name derived from the remaining (non-flag) arguments.
