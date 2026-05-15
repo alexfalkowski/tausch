@@ -26,12 +26,17 @@ var ErrKindNotFound = errors.New("kind not found")
 //   - "file": treats data as a filesystem path and returns the file contents.
 //   - "base64": treats data as standard base64 and decodes it.
 //
-// If kind is unknown, Decode returns ErrKindNotFound.
+// If the value is missing the ":" separator or kind is unknown, Decode returns
+// ErrKindNotFound.
 //
 // If kind is "file", any error from os.ReadFile is returned.
 // If kind is "base64", any error from base64.StdEncoding.DecodeString is returned.
 func Decode(value string) ([]byte, error) {
-	kind, data, _ := strings.Cut(value, ":")
+	kind, data, ok := strings.Cut(value, ":")
+	if !ok {
+		return nil, ErrKindNotFound
+	}
+
 	switch kind {
 	case "text":
 		return []byte(data), nil
