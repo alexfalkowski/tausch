@@ -35,3 +35,16 @@ func TestDecodeError(t *testing.T) {
 		require.Error(t, err)
 	}
 }
+
+func TestDecodeMissingSeparator(t *testing.T) {
+	values := []string{
+		"text",
+		"base64",
+		"file",
+	}
+
+	for _, value := range values {
+		_, err := encoding.Decode(value)
+		require.ErrorIs(t, err, encoding.ErrKindNotFound)
+	}
+}
