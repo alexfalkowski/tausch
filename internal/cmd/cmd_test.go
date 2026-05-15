@@ -63,6 +63,21 @@ func TestRunMissingCommand(t *testing.T) {
 	require.Contains(t, stderr.String(), "find test my code: command not found")
 }
 
+func TestRunMultipleOutputs(t *testing.T) {
+	args := []string{
+		"-config", "../../test/configs/multiple_outputs.yml",
+		"--",
+		"go", "version",
+	}
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	c := cmd.Run(stdout, stderr, args)
+
+	require.Equal(t, 1, c)
+	require.Empty(t, stdout.Bytes())
+	require.Contains(t, stderr.String(), "multiple outputs configured")
+}
+
 func TestRunStdoutWriteError(t *testing.T) {
 	args := []string{
 		"-config", "../../test/configs/stdout_invalid.yml",
