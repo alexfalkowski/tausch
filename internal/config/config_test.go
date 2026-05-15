@@ -28,6 +28,14 @@ func TestDecodeError(t *testing.T) {
 	}
 }
 
+func TestDecodeMultipleOutputs(t *testing.T) {
+	c, err := config.Decode("../../test/configs/multiple_outputs.yml")
+
+	require.Nil(t, c)
+	require.ErrorIs(t, err, config.ErrMultipleOutputs)
+	require.Contains(t, err.Error(), `command "go version"`)
+}
+
 func TestGetCommandNilCommand(t *testing.T) {
 	c := &config.Config{Cmds: []*config.Command{nil}}
 

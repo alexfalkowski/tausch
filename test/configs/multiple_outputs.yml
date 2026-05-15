@@ -1,0 +1,4 @@
+cmds:
+  - name: go version
+    stdout: text:go version
+    stderr: text:warning

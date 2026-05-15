@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"slices"
 
@@ -14,11 +15,19 @@ import (
 // Callers typically compare with errors.Is(err, ErrCommandNotFound).
 var ErrCommandNotFound = errors.New("command not found")
 
+// ErrMultipleOutputs is returned when a command configures both stdout and
+// stderr. A command stub must choose one output stream because stdout indicates
+// success and stderr indicates failure.
+//
+// Callers typically compare with errors.Is(err, ErrMultipleOutputs).
+var ErrMultipleOutputs = errors.New("multiple outputs configured")
+
 // Decode reads a YAML configuration file from path and decodes it into a [Config].
 //
 // The YAML is expected to match the tausch schema (a top-level `cmds` list). This
-// function only performs YAML decoding; it does not validate that any commands
-// are present or that stdout/stderr payload strings are valid `kind:data` values.
+// function validates command-level invariants, but it does not validate that any
+// commands are present or that stdout/stderr payload strings are valid
+// `kind:data` values.
 //
 // The returned *Config is ready to be queried with [Config.GetCommand].
 //
@@ -36,6 +45,10 @@ func Decode(path string) (*Config, error) {
 		return nil, err
 	}
 
+	if err := config.Validate(); err != nil {
+		return nil, err
+	}
+
 	return &config, nil
 }
 
@@ -49,6 +62,24 @@ func Decode(path string) (*Config, error) {
 type Config struct {
 	// Cmds is the set of configured command stubs.
 	Cmds []*Command `yaml:"cmds"`
+}
+
+// Validate checks command-level config invariants.
+//
+// It permits nil command entries so lookup remains tolerant of sparse decoded
+// data, but non-nil commands must not configure both stdout and stderr.
+func (c *Config) Validate() error {
+	for _, command := range c.Cmds {
+		if command == nil {
+			continue
+		}
+
+		if command.hasMultipleOutputs() {
+			return fmt.Errorf("command %q: %w", command.Name, ErrMultipleOutputs)
+		}
+	}
+
+	return nil
 }
 
 // GetCommand returns the configured [Command] whose [Command.Name] exactly matches
@@ -89,4 +120,8 @@ type Command struct {
 	// Stderr is the encoded payload to write to stderr when stdout is empty and the
 	// command is treated as failing.
 	Stderr string `yaml:"stderr"`
+}
+
+func (c *Command) hasMultipleOutputs() bool {
+	return c.Stdout != "" && c.Stderr != ""
 }
