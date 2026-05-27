@@ -48,3 +48,10 @@ func TestDecodeMissingSeparator(t *testing.T) {
 		require.ErrorIs(t, err, encoding.ErrKindNotFound)
 	}
 }
+
+func TestDecodePreservesDataAfterFirstColon(t *testing.T) {
+	d, err := encoding.Decode("text:a:b")
+
+	require.NoError(t, err)
+	require.Equal(t, []byte("a:b"), d)
+}

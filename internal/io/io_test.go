@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/io"
+	"github.com/alexfalkowski/tausch/internal/test"
 	"github.com/stretchr/testify/require"
 )
 
@@ -48,4 +49,11 @@ func TestWriteEmpty(t *testing.T) {
 	require.NoError(t, err)
 	require.False(t, ok)
 	require.Empty(t, buffer.Bytes())
+}
+
+func TestWriteWriterError(t *testing.T) {
+	ok, err := io.Write(test.FailingWriter{}, "text:test")
+
+	require.ErrorIs(t, err, test.ErrWriteFailed)
+	require.True(t, ok)
 }
