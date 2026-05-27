@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/cmd"
+	"github.com/alexfalkowski/tausch/internal/test"
 	"github.com/stretchr/testify/require"
 )
 
@@ -93,9 +94,26 @@ func TestRunStdoutWriteError(t *testing.T) {
 	require.Contains(t, stderr.String(), "illegal base64 data")
 }
 
-func TestRunStdout(t *testing.T) {
+func TestRunStdoutWriterError(t *testing.T) {
+	t.Chdir("../..")
+
 	args := []string{
-		"-config", "../../test/configs/config.yml",
+		"-config", "test/configs/config.yml",
+		"--",
+		"go", "version",
+	}
+	stderr := &bytes.Buffer{}
+	c := cmd.Run(test.FailingWriter{}, stderr, args)
+
+	require.Equal(t, 1, c)
+	require.Contains(t, stderr.String(), test.ErrWriteFailed.Error())
+}
+
+func TestRunStdout(t *testing.T) {
+	t.Chdir("../..")
+
+	args := []string{
+		"-config", "test/configs/config.yml",
 		"--",
 		"go", "version",
 	}
@@ -124,8 +142,10 @@ func TestRunStderrWriteError(t *testing.T) {
 }
 
 func TestRunStderr(t *testing.T) {
+	t.Chdir("../..")
+
 	args := []string{
-		"-config", "../../test/configs/config.yml",
+		"-config", "test/configs/config.yml",
 		"--",
 		"go", "bob",
 	}

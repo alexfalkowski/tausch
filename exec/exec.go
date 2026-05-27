@@ -2,7 +2,6 @@ package exec
 
 import (
 	"context"
-	"errors"
 	"os"
 	"os/exec"
 )
@@ -34,7 +33,7 @@ func CommandContext(ctx context.Context, name string, arg ...string) *exec.Cmd {
 
 func executable() string {
 	path, err := exec.LookPath("tausch")
-	if err != nil && !errors.Is(err, exec.ErrDot) {
+	if err != nil {
 		return os.Getenv("TAUSCH_PATH")
 	}
 

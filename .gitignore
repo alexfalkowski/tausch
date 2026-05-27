@@ -7,3 +7,4 @@ tausch
 dist
 test/reports/coverage.html
 .source-key
+ISSUES.md
