@@ -27,7 +27,7 @@ type Writer = io.Writer
 //
 // Errors from decoding or from the underlying writer are returned.
 func Write(w io.Writer, data string) (bool, error) {
-	if len(data) == 0 {
+	if data == "" {
 		return false, nil
 	}
 

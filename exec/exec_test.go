@@ -41,18 +41,18 @@ func TestCommandPrefersPathOverTauschPath(t *testing.T) {
 	t.Setenv("PATH", pathDir)
 	t.Setenv("TAUSCH_PATH", fallback)
 
-	b := &bytes.Buffer{}
+	combinedOutput := &bytes.Buffer{}
 
 	cmd := exec.CommandContext(t.Context(), "go", "version")
-	cmd.Stdout = b
-	cmd.Stderr = b
+	cmd.Stdout = combinedOutput
+	cmd.Stderr = combinedOutput
 
 	require.NoError(t, cmd.Run())
 	require.NoError(t, cmd.Err)
-	require.Equal(t, "path", b.String())
+	require.Equal(t, "path", combinedOutput.String())
 }
 
-func TestCommandSuccess(t *testing.T) {
+func TestCommandFallsBackToTauschPath(t *testing.T) {
 	t.Setenv("PATH", t.TempDir())
 	t.Setenv("TAUSCH_PATH", "../tausch")
 	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
@@ -82,15 +82,15 @@ func TestCommandFallsBackToTauschPathForErrDot(t *testing.T) {
 	t.Setenv("PATH", ".")
 	t.Setenv("TAUSCH_PATH", fallback)
 
-	b := &bytes.Buffer{}
+	combinedOutput := &bytes.Buffer{}
 
 	cmd := exec.CommandContext(t.Context(), "go", "version")
-	cmd.Stdout = b
-	cmd.Stderr = b
+	cmd.Stdout = combinedOutput
+	cmd.Stderr = combinedOutput
 
 	require.NoError(t, cmd.Run())
 	require.NoError(t, cmd.Err)
-	require.Equal(t, "fallback", b.String())
+	require.Equal(t, "fallback", combinedOutput.String())
 }
 
 func TestCommandPrefixesDelimiter(t *testing.T) {
@@ -113,15 +113,15 @@ func TestCommandPassesVariadicArgs(t *testing.T) {
 	t.Setenv("TAUSCH_PATH", "../tausch")
 	t.Setenv("TAUSCH_CONFIG", config)
 
-	b := &bytes.Buffer{}
+	combinedOutput := &bytes.Buffer{}
 
 	cmd := exec.CommandContext(t.Context(), "go", "env", "GOPATH")
-	cmd.Stdout = b
-	cmd.Stderr = b
+	cmd.Stdout = combinedOutput
+	cmd.Stderr = combinedOutput
 
 	require.NoError(t, cmd.Run())
 	require.NoError(t, cmd.Err)
-	require.Equal(t, "gopath", b.String())
+	require.Equal(t, "gopath", combinedOutput.String())
 }
 
 func TestCommandError(t *testing.T) {

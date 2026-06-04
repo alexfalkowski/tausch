@@ -6,13 +6,13 @@
 
 # Tausch
 
-It is common to want to try to test commands part of the [exec](https://pkg.go.dev/os/exec) package.
+It is common to want to try to test commands that use the [exec](https://pkg.go.dev/os/exec) package.
 
 This tool allows you to still call commands though just stub them out.
 
 ## Background
 
-Writing tools in the Unix/Linux world is a composition of many other tools. This is in a lot of ways is the [unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
+Writing tools in the Unix/Linux world is a composition of many other tools. This is, in a lot of ways, the [unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
 
 Though as we start to write these scripts/tools we quickly realise that verifying they work is not easy. You might ask yourself how can we test these?
 
@@ -76,7 +76,7 @@ Thank you for creating them.
 
 ## Configuration
 
-The configuration is just a list of `cmds` and wether you would like to write to `stdout` or `stderr`.
+The configuration is just a list of `cmds` and whether you would like to write to `stdout` or `stderr`.
 
 Each `cmd` can be `text`, `file` or a `base64` text, separated by a `: (colon)`.
 
@@ -92,10 +92,10 @@ The configuration would look like:
 
 ```yaml
 cmds:
-- name: go version
-  stdout: file:test/stdout/go_version.txt
-- name: go bob
-  stderr: file:test/stderr/go_bob.txt
+  - name: go version
+    stdout: file:test/stdout/go_version.txt
+  - name: go bob
+    stderr: file:test/stderr/go_bob.txt
 ```
 
 ## Capture
@@ -152,7 +152,7 @@ tausch -config test/configs/config.yml -- go version
 tausch -config test/configs/config.yml -- go bob
 ```
 
-To verify it caused and error:
+To verify it caused an error:
 
 ```bash
 echo $? => 1

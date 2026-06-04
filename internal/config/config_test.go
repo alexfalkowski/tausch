@@ -21,10 +21,12 @@ func TestDecodeError(t *testing.T) {
 	}
 
 	for _, value := range values {
-		c, err := config.Decode(value)
+		t.Run(value, func(t *testing.T) {
+			c, err := config.Decode(value)
 
-		require.Error(t, err)
-		require.Nil(t, c)
+			require.Error(t, err)
+			require.Nil(t, c)
+		})
 	}
 }
 

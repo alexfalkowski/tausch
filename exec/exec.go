@@ -28,7 +28,7 @@ import (
 // If neither provides a usable executable, running the returned command will
 // fail with an underlying exec error (for example “executable file not found”).
 func CommandContext(ctx context.Context, name string, arg ...string) *exec.Cmd {
-	return exec.CommandContext(ctx, executable(), args(name, arg...)...)
+	return exec.CommandContext(ctx, executable(), commandArgs(name, arg...)...)
 }
 
 func executable() string {
@@ -40,6 +40,6 @@ func executable() string {
 	return path
 }
 
-func args(name string, arg ...string) []string {
+func commandArgs(name string, arg ...string) []string {
 	return append([]string{"--", name}, arg...)
 }

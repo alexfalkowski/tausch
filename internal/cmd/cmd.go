@@ -51,26 +51,26 @@ func Run(stdout, stderr io.Writer, args []string) int {
 		return 1
 	}
 
-	config, err := config.Decode(file)
+	cfg, err := config.Decode(file)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 1
 	}
 
 	name := f.Name()
-	command, err := config.GetCommand(name)
+	command, err := cfg.GetCommand(name)
 	if err != nil {
 		fmt.Fprintln(stderr, fmt.Errorf("find %s: %w", name, err))
 		return 1
 	}
 
-	ok, err := io.Write(stdout, command.Stdout)
+	wroteStdout, err := io.Write(stdout, command.Stdout)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 1
 	}
 
-	if ok {
+	if wroteStdout {
 		return 0
 	}
 

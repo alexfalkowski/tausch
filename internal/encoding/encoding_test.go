@@ -11,7 +11,7 @@ import (
 
 func TestDecodeSuccess(t *testing.T) {
 	want := []byte(" test\n")
-	file := filepath.Join(t.TempDir(), "test.txt")
+	file := filepath.Join(t.TempDir(), "sample.txt")
 	require.NoError(t, os.WriteFile(file, want, 0o600))
 
 	values := []struct {
@@ -41,8 +41,10 @@ func TestDecodeError(t *testing.T) {
 	}
 
 	for _, value := range values {
-		_, err := encoding.Decode(value)
-		require.Error(t, err)
+		t.Run(value, func(t *testing.T) {
+			_, err := encoding.Decode(value)
+			require.Error(t, err)
+		})
 	}
 }
 
@@ -54,8 +56,10 @@ func TestDecodeMissingSeparator(t *testing.T) {
 	}
 
 	for _, value := range values {
-		_, err := encoding.Decode(value)
-		require.ErrorIs(t, err, encoding.ErrKindNotFound)
+		t.Run(value, func(t *testing.T) {
+			_, err := encoding.Decode(value)
+			require.ErrorIs(t, err, encoding.ErrKindNotFound)
+		})
 	}
 }
 
