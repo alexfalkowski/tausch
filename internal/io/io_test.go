@@ -2,6 +2,8 @@ package io_test
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/alexfalkowski/tausch/internal/io"
@@ -10,19 +12,28 @@ import (
 )
 
 func TestWriteSuccess(t *testing.T) {
-	values := []string{
-		"text:test",
-		"base64:dGVzdA==",
-		"file:../../test/configs/test.txt",
+	want := []byte(" test\n")
+	file := filepath.Join(t.TempDir(), "test.txt")
+	require.NoError(t, os.WriteFile(file, want, 0o600))
+
+	values := []struct {
+		name  string
+		value string
+	}{
+		{name: "text", value: "text: test\n"},
+		{name: "base64", value: "base64:IHRlc3QK"},
+		{name: "file", value: "file:" + file},
 	}
 
-	for _, value := range values {
-		buffer := &bytes.Buffer{}
-		ok, err := io.Write(buffer, value)
+	for _, tt := range values {
+		t.Run(tt.name, func(t *testing.T) {
+			buffer := &bytes.Buffer{}
+			ok, err := io.Write(buffer, tt.value)
 
-		require.NoError(t, err)
-		require.True(t, ok)
-		require.Equal(t, []byte("test"), bytes.TrimSpace(buffer.Bytes()))
+			require.NoError(t, err)
+			require.True(t, ok)
+			require.Equal(t, want, buffer.Bytes())
+		})
 	}
 }
 

@@ -44,3 +44,31 @@ func TestGetCommandNilCommand(t *testing.T) {
 	require.Nil(t, command)
 	require.ErrorIs(t, err, config.ErrCommandNotFound)
 }
+
+func TestGetCommandExactMatch(t *testing.T) {
+	command := &config.Command{Name: "go version", Stdout: "text:go version"}
+	c := &config.Config{
+		Cmds: []*config.Command{
+			command,
+			{Name: "Go Version", Stdout: "text:case"},
+			{Name: "go version extra", Stdout: "text:extra"},
+		},
+	}
+
+	got, err := c.GetCommand("go version")
+	require.NoError(t, err)
+	require.Same(t, command, got)
+
+	got, err = c.GetCommand("go version extra")
+	require.NoError(t, err)
+	require.Same(t, c.Cmds[2], got)
+
+	for _, value := range []string{"Go version", "go", " go version "} {
+		t.Run(value, func(t *testing.T) {
+			got, err := c.GetCommand(value)
+
+			require.Nil(t, got)
+			require.ErrorIs(t, err, config.ErrCommandNotFound)
+		})
+	}
+}
