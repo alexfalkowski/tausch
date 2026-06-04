@@ -13,7 +13,7 @@ import (
 
 func TestWriteSuccess(t *testing.T) {
 	want := []byte(" test\n")
-	file := filepath.Join(t.TempDir(), "test.txt")
+	file := filepath.Join(t.TempDir(), "sample.txt")
 	require.NoError(t, os.WriteFile(file, want, 0o600))
 
 	values := []struct {
@@ -28,10 +28,10 @@ func TestWriteSuccess(t *testing.T) {
 	for _, tt := range values {
 		t.Run(tt.name, func(t *testing.T) {
 			buffer := &bytes.Buffer{}
-			ok, err := io.Write(buffer, tt.value)
+			wrote, err := io.Write(buffer, tt.value)
 
 			require.NoError(t, err)
-			require.True(t, ok)
+			require.True(t, wrote)
 			require.Equal(t, want, buffer.Bytes())
 		})
 	}
@@ -44,27 +44,29 @@ func TestWriteError(t *testing.T) {
 	}
 
 	for _, value := range values {
-		buffer := &bytes.Buffer{}
-		ok, err := io.Write(buffer, value)
+		t.Run(value, func(t *testing.T) {
+			buffer := &bytes.Buffer{}
+			wrote, err := io.Write(buffer, value)
 
-		require.Error(t, err)
-		require.False(t, ok)
-		require.Empty(t, buffer.Bytes())
+			require.Error(t, err)
+			require.False(t, wrote)
+			require.Empty(t, buffer.Bytes())
+		})
 	}
 }
 
 func TestWriteEmpty(t *testing.T) {
 	buffer := &bytes.Buffer{}
-	ok, err := io.Write(buffer, "")
+	wrote, err := io.Write(buffer, "")
 
 	require.NoError(t, err)
-	require.False(t, ok)
+	require.False(t, wrote)
 	require.Empty(t, buffer.Bytes())
 }
 
 func TestWriteWriterError(t *testing.T) {
-	ok, err := io.Write(test.FailingWriter{}, "text:test")
+	wrote, err := io.Write(test.FailingWriter{}, "text:test")
 
 	require.ErrorIs(t, err, test.ErrWriteFailed)
-	require.True(t, ok)
+	require.True(t, wrote)
 }

@@ -13,9 +13,9 @@ func TestRunInvalidArgs(t *testing.T) {
 	args := []string{"- x"}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "flag provided but not defined")
 	require.Contains(t, stderr.String(), "Usage of tausch:")
@@ -27,9 +27,9 @@ func TestRunConfigError(t *testing.T) {
 
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, nil)
+	code := cmd.Run(stdout, stderr, nil)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.NotEmpty(t, stderr.Bytes())
 }
@@ -42,9 +42,9 @@ func TestRunMissingConfig(t *testing.T) {
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "cfg.yml")
 }
@@ -57,9 +57,9 @@ func TestRunMissingCommand(t *testing.T) {
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "find test my code: command not found")
 }
@@ -72,24 +72,24 @@ func TestRunMultipleOutputs(t *testing.T) {
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "multiple outputs configured")
 }
 
 func TestRunStdoutWriteError(t *testing.T) {
 	args := []string{
-		"-config", "../../test/configs/stdout_invalid.yml",
+		"-config", "../../test/configs/stdout_invalid_base64.yml",
 		"--",
 		"go", "version",
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "illegal base64 data")
 }
@@ -103,9 +103,9 @@ func TestRunStdoutWriterError(t *testing.T) {
 		"go", "version",
 	}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(test.FailingWriter{}, stderr, args)
+	code := cmd.Run(test.FailingWriter{}, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Contains(t, stderr.String(), test.ErrWriteFailed.Error())
 }
 
@@ -119,24 +119,24 @@ func TestRunStdout(t *testing.T) {
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Zero(t, c)
+	require.Zero(t, code)
 	require.NotEmpty(t, stdout.Bytes())
 	require.Empty(t, stderr.Bytes())
 }
 
 func TestRunStderrWriteError(t *testing.T) {
 	args := []string{
-		"-config", "../../test/configs/stderr_invalid.yml",
+		"-config", "../../test/configs/stderr_invalid_base64.yml",
 		"--",
 		"go", "bob",
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "illegal base64 data")
 }
@@ -151,9 +151,9 @@ func TestRunStderr(t *testing.T) {
 	}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	c := cmd.Run(stdout, stderr, args)
+	code := cmd.Run(stdout, stderr, args)
 
-	require.Equal(t, 1, c)
+	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.NotEmpty(t, stderr.Bytes())
 }
