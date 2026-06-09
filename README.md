@@ -4,13 +4,13 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/alexfalkowski/tausch.svg)](https://pkg.go.dev/github.com/alexfalkowski/tausch)
 [![Stability: Active](https://masterminds.github.io/stability/active.svg)](https://masterminds.github.io/stability/active.html)
 
-# Tausch
+# 🔁 Tausch
 
-It is common to want to try to test commands that use the [exec](https://pkg.go.dev/os/exec) package.
+It is common to test Go code that uses the [exec](https://pkg.go.dev/os/exec) package.
 
-This tool allows you to still call commands though just stub them out.
+Tausch lets that code keep calling commands while replacing the command output with configured stubs.
 
-## Background
+## 📚 Background
 
 Writing tools in the Unix/Linux world is a composition of many other tools. This is, in a lot of ways, the [unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
 
@@ -36,7 +36,7 @@ Though as your codebase starts getting bigger, you start to question was this sc
 
 All these projects are fine, though you might have some hard requirements or just preferences and need to use [go](https://go.dev/). If this is you, then this project might help.
 
-## Drift
+## 🧭 Drift
 
 As this tool just [stubs](http://xunitpatterns.com/Test%20Stub.html) the output of a command, how do we make sure that we stay compatible with what we record?
 
@@ -48,7 +48,7 @@ So managing the outputs needs a careful process. One ways it to have a [runbook]
 
 Though as you might realise it does not matter if you manage to verify/tests lots of combinations, you will miss something. This is why making sure that whatever you build you need to have [observability](https://en.wikipedia.org/wiki/Observability_(software)) as a first class citizen.
 
-## Why?
+## ❓ Why?
 
 So you might be asking yourself, why should I use this solution?
 
@@ -62,7 +62,7 @@ As this is a single binary and ties into the already defined [cmd](https://pkg.g
 
 Of course you might not want another dependency, if that is the case then just copy the [code](https://github.com/alexfalkowski/tausch/blob/master/exec/exec.go).
 
-## Inspiration
+## ✨ Inspiration
 
 I have taken these ideas from using tools from my past, such as:
 
@@ -74,13 +74,38 @@ Thank you for creating them.
 > [!NOTE]
 > One way to expand this tool in the future is to also run this once and record the outputs, if the need arises it will be added.
 
-## Configuration
+## ⚡ Quick Start
 
-The configuration is just a list of `cmds` and whether you would like to write to `stdout` or `stderr`.
+Install the CLI:
 
-Each `cmd` can be `text`, `file` or a `base64` text, separated by a `: (colon)`.
+```bash
+go install github.com/alexfalkowski/tausch@latest
+```
 
-Examples:
+Create a config:
+
+```yaml
+cmds:
+  - name: go version
+    stdout: text:go version go1.26.0 darwin/arm64
+  - name: go bob
+    stderr: text:go bob: unknown command
+```
+
+Run a command through Tausch:
+
+```bash
+tausch -config config.yml -- go version
+```
+
+> [!TIP]
+> Set `TAUSCH_CONFIG` in tests when many commands should share the same config path.
+
+## ⚙️ Configuration
+
+The configuration is a YAML document with a top-level `cmds` list. Each command entry has a `name` and either `stdout` or `stderr`.
+
+The `stdout` and `stderr` values use a `kind:data` format:
 
 ```txt
 text:This is awesome
@@ -88,7 +113,13 @@ base64:VGhpcyBpcyBhd2Vzb21l
 file:path
 ```
 
-The configuration would look like:
+The supported kinds are:
+
+- `text:<literal text>` writes the text bytes as-is.
+- `base64:<base64-encoded bytes>` decodes standard base64 and writes the bytes.
+- `file:<path>` reads the file at the path and writes its bytes.
+
+The configuration can look like:
 
 ```yaml
 cmds:
@@ -98,9 +129,12 @@ cmds:
     stderr: file:test/stderr/go_bob.txt
 ```
 
-## Capture
+> [!IMPORTANT]
+> Configure only one output stream per command. A command with `stdout` is treated as successful and exits `0`; a command with `stderr` and no `stdout` is treated as failing and exits `1`. Configuring both `stdout` and `stderr` for one command is rejected.
 
-To capture the `stdout` or `stderr` of the command, you can run the following:
+## 🎙️ Capture
+
+To capture the combined `stdout` and `stderr` of a command, you can run:
 
 ```bash
 command &> path
@@ -113,40 +147,46 @@ go version &> test/stdout/go_version.txt
 go bob &> test/stderr/go_bob.txt
 ```
 
-## Usage
+> [!CAUTION]
+> `&>` combines both streams. If your stub needs to prove that output came from only one stream, capture stdout with `>` or stderr with `2>` instead.
+
+## 🚀 Usage
 
 There are multiple ways you can use this.
 
-### Environment
+### 🌱 Environment
 
 The executable looks for configuration in a few places.
 
-#### Executable
+#### 🧩 Executable
 
-The executable will read the config from the following places:
+The executable reads the config path in this order:
 
 - `-config` - argument with a path.
 - `TAUSCH_CONFIG` - from an env variable.
-- `$HOME/.config/tausch/config.yml` - The config can be placed a well known config folder.
+- `$HOME/.config/tausch/config.yml` - default config location.
 
-#### exec.CommandContext
+#### 🧪 exec.CommandContext
 
-Using the library will look for the executable in the following places:
+Using the library looks for the executable in this order:
 
-- `$PATH` - finds the executable provided in the path.
-- `TAUSCH_PATH` - the path of the binary if `tausch` is not found on `PATH`.
+- `$PATH` - finds the `tausch` executable provided in the path.
+- `TAUSCH_PATH` - path of the binary if `tausch` is not found on `PATH`.
 
-### Command
+### 💻 Command
 
-You just pass in a config and after the `--` you call your usual command. So basically you just prefix your command with `tausch`.
+Pass a config and, after `--`, call your usual command. The command tokens after `--` are joined with spaces and matched against a config entry's `name`.
 
-#### Example for `stdout`
+> [!WARNING]
+> Command matching is exact and case-sensitive. For example, `tausch -- go version` matches `name: go version`, but not `name: Go Version` or `name: go version extra`.
+
+#### ✅ Example for stdout
 
 ```bash
 tausch -config test/configs/config.yml -- go version
 ```
 
-#### Example for `stderr`
+#### ❌ Example for stderr
 
 ```bash
 tausch -config test/configs/config.yml -- go bob
@@ -155,10 +195,10 @@ tausch -config test/configs/config.yml -- go bob
 To verify it caused an error:
 
 ```bash
-echo $? => 1
+echo $? # 1
 ```
 
-### Library
+### 📦 Library
 
 In your code you would use it just like you would the [exec](https://pkg.go.dev/os/exec).
 
@@ -171,4 +211,20 @@ import (
 
 cmd := exec.CommandContext(context.Background(), "go", "version")
 _ = cmd.Run()
+```
+
+The wrapper above invokes the `tausch` binary with `-- go version`, so the command name must be present in the active YAML config.
+
+## 🛠️ Development
+
+Build the CLI from the repository root:
+
+```bash
+make build
+```
+
+Run the tests after the binary exists:
+
+```bash
+go test ./...
 ```
