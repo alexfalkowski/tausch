@@ -197,7 +197,7 @@ Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either v
 
 ## CI / release
 
-- CircleCI config: `.circleci/config.yml` runs (in order) `make dep`, `make lint`, `make sec`, `make build`, `make specs`, `make coverage`.
+- CircleCI config: `.circleci/config.yml` wraps the core local validation sequence (`make dep`, `make lint`, `make sec`, `make build`, `make specs`, `make coverage`) with CI setup, cleanup, cache, and upload steps.
 - GoReleaser config: `.goreleaser.yml`.
 
 ## Gotchas

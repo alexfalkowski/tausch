@@ -31,8 +31,8 @@ var ErrMultipleOutputs = errors.New("multiple outputs configured")
 //
 // The returned *Config is ready to be queried with [Config.GetCommand].
 //
-// Errors are returned for I/O failures (opening/reading the file) and for YAML
-// decoding errors.
+// Errors are returned for I/O failures (opening/reading the file), YAML decoding
+// errors, and validation failures such as [ErrMultipleOutputs].
 func Decode(path string) (*Config, error) {
 	f, err := os.Open(path)
 	if err != nil {

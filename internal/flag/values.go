@@ -2,6 +2,7 @@ package flag
 
 import (
 	"flag"
+	"fmt"
 	"io"
 	"os"
 	"path"
@@ -23,6 +24,16 @@ import (
 func Parse(output io.Writer, args []string) (*Values, error) {
 	set := flag.NewFlagSet("tausch", flag.ContinueOnError)
 	set.SetOutput(output)
+	set.Usage = func() {
+		fmt.Fprintln(set.Output(), "Usage of tausch:")
+		fmt.Fprintln(set.Output(), "  tausch [flags] -- <command tokens...>")
+		fmt.Fprintln(set.Output())
+		fmt.Fprintln(set.Output(), "Command tokens after -- are joined with spaces")
+		fmt.Fprintln(set.Output(), "and matched against a config entry's name.")
+		fmt.Fprintln(set.Output())
+		fmt.Fprintln(set.Output(), "Flags:")
+		set.PrintDefaults()
+	}
 
 	file := set.String("config", "", "the config file path")
 	if err := set.Parse(args); err != nil {
