@@ -19,6 +19,7 @@ func TestRunInvalidArgs(t *testing.T) {
 	require.Empty(t, stdout.Bytes())
 	require.Contains(t, stderr.String(), "flag provided but not defined")
 	require.Contains(t, stderr.String(), "Usage of tausch:")
+	require.Contains(t, stderr.String(), "tausch [flags] -- <command tokens...>")
 }
 
 func TestRunConfigError(t *testing.T) {
