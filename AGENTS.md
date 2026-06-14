@@ -159,7 +159,7 @@ Config path is resolved in this order (`internal/flag/values.go:29-42`):
 
 1. `-config <path>`
 2. `TAUSCH_CONFIG` environment variable
-3. `$HOME/.config/tausch/config.yml`
+3. `os.UserConfigDir()/tausch/config.yml` (for example `$HOME/.config/tausch/config.yml` on many Unix-like systems)
 
 ### Encoding format for stdout/stderr
 
@@ -168,6 +168,8 @@ Config path is resolved in this order (`internal/flag/values.go:29-42`):
 - `text:<literal text>`
 - `base64:<base64-encoded bytes>`
 - `file:<path to file>`
+
+Relative `file:` paths are resolved from the current working directory of the `tausch` process, not from the config file location.
 
 If the prefix is unknown, decoding fails with `ErrKindNotFound`.
 
@@ -178,7 +180,7 @@ The `exec` package returns an `*exec.Cmd` that actually executes the `tausch` bi
 - It resolves the binary via `exec.LookPath("tausch")`, and falls back to `TAUSCH_PATH` if not found (`exec/exec.go:15-22`).
 - It prefixes arguments with `--` before the real command (`exec/exec.go:24-26`).
 
-Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either via `PATH` including the repo root or via `TAUSCH_PATH`).
+Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either via `PATH` including an absolute repo root or via `TAUSCH_PATH`). Do not rely on `PATH=.`; Go's `exec.LookPath` can reject current-directory matches and cause the wrapper to fall back to `TAUSCH_PATH`.
 
 ## Testing patterns
 

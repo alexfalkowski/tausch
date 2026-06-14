@@ -19,6 +19,10 @@
 //  1. If `tausch` can be found on PATH via [os/exec.LookPath], that path is used.
 //  2. Otherwise, the value of the `TAUSCH_PATH` environment variable is used.
 //
+// PATH lookup requires [os/exec.LookPath] to return a usable executable path. If
+// Go rejects a relative current-directory match such as PATH=".", this package
+// treats that as unresolved and falls back to `TAUSCH_PATH`.
+//
 // If neither produces a usable path, the returned command will fail when run
 // (for example with an “executable file not found” error).
 //
@@ -26,8 +30,12 @@
 //
 // The tausch CLI discovers its YAML config path via `-config`, `TAUSCH_CONFIG`,
 // or a default location. This package does not set or interpret configuration
-// itself; you are expected to configure tausch via environment variables or
-// CLI flags as appropriate for your application/test.
+// itself; for library use, configure tausch with `TAUSCH_CONFIG` or the default
+// config location before running the returned command.
+//
+// Arguments passed to [CommandContext] are target command tokens only. They are
+// always placed after `--`, so passing `-config` to [CommandContext] would make
+// it part of the stubbed command name instead of a tausch CLI flag.
 //
 // # Example
 //

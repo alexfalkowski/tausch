@@ -18,7 +18,8 @@
 //   - If data is the empty string, it performs no writes and returns (false, nil).
 //   - If data is non-empty, it attempts to decode it and write it to w.
 //     On success it returns (true, nil).
-//   - If decoding fails or the underlying write fails, it returns (false, err).
+//   - If decoding fails, it returns (false, err).
+//   - If the underlying write fails after decoding succeeds, it returns (true, err).
 //
 // The returned boolean indicates whether output was attempted/emitted. The CLI
 // orchestration uses this to decide whether to treat a command as a "success"

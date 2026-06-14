@@ -19,7 +19,8 @@
 //
 //   - file:<path>
 //     Interprets data as a filesystem path and returns the contents of the file
-//     via os.ReadFile.
+//     via os.ReadFile. Relative paths are resolved from the current working
+//     directory of the tausch process, not from the config file location.
 //
 //   - base64:<base64-encoded bytes>
 //     Interprets data as a standard base64 encoding (RFC 4648) and decodes it
