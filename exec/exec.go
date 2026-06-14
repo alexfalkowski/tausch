@@ -21,9 +21,17 @@ import (
 // This allows command execution to be stubbed by tausch according to its YAML
 // configuration.
 //
+// The provided name and args are target command tokens only. They are always
+// passed after `--`, so tausch CLI flags such as `-config` must be supplied
+// through `TAUSCH_CONFIG` or the default config location instead.
+//
 // Executable resolution follows the tausch CLI wrapper rules:
 //   - Prefer a `tausch` binary found on PATH.
 //   - Otherwise fall back to the `TAUSCH_PATH` environment variable.
+//
+// PATH lookup requires os/exec.LookPath to return a usable executable path. If
+// Go rejects a relative current-directory match such as PATH=".", this function
+// falls back to `TAUSCH_PATH`.
 //
 // If neither provides a usable executable, running the returned command will
 // fail with an underlying exec error (for example “executable file not found”).

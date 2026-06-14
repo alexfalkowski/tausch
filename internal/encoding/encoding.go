@@ -26,6 +26,9 @@ var ErrKindNotFound = errors.New("kind not found")
 //   - "file": treats data as a filesystem path and returns the file contents.
 //   - "base64": treats data as standard base64 and decodes it.
 //
+// Relative "file" paths are resolved from the current working directory of the
+// tausch process, not from the config file location.
+//
 // If the value is missing the ":" separator or kind is unknown, Decode returns
 // ErrKindNotFound.
 //

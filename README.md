@@ -87,9 +87,9 @@ Create a config:
 ```yaml
 cmds:
   - name: go version
-    stdout: text:go version go1.26.0 darwin/arm64
+    stdout: "text:go version go1.26.0 darwin/arm64"
   - name: go bob
-    stderr: text:go bob: unknown command
+    stderr: "text:go bob: unknown command"
 ```
 
 Run a command through Tausch:
@@ -117,7 +117,7 @@ The supported kinds are:
 
 - `text:<literal text>` writes the text bytes as-is.
 - `base64:<base64-encoded bytes>` decodes standard base64 and writes the bytes.
-- `file:<path>` reads the file at the path and writes its bytes.
+- `file:<path>` reads the file at the path and writes its bytes. Relative paths are resolved from the current working directory of the `tausch` process, not from the config file location.
 
 The configuration can look like:
 
@@ -164,7 +164,7 @@ The executable reads the config path in this order:
 
 - `-config` - argument with a path.
 - `TAUSCH_CONFIG` - from an env variable.
-- `$HOME/.config/tausch/config.yml` - default config location.
+- The platform user config directory with `tausch/config.yml` appended - default config location. On Unix-like systems this is commonly `$HOME/.config/tausch/config.yml`, but the exact base directory comes from Go's `os.UserConfigDir`.
 
 #### 🧪 exec.CommandContext
 
@@ -172,6 +172,8 @@ Using the library looks for the executable in this order:
 
 - `$PATH` - finds the `tausch` executable provided in the path.
 - `TAUSCH_PATH` - path of the binary if `tausch` is not found on `PATH`.
+
+PATH lookup uses Go's `os/exec.LookPath("tausch")`. If Go rejects a relative current-directory match such as `PATH=.`, the wrapper falls back to `TAUSCH_PATH`; use an absolute directory on `PATH` or set `TAUSCH_PATH` in tests.
 
 ### 💻 Command
 
@@ -214,6 +216,8 @@ _ = cmd.Run()
 ```
 
 The wrapper above invokes the `tausch` binary with `-- go version`, so the command name must be present in the active YAML config.
+
+For library use, configure Tausch with `TAUSCH_CONFIG` or the default config location before running the command. `CommandContext` arguments are only the target command tokens; passing `-config` there would make it part of the stubbed command name instead of a Tausch CLI flag.
 
 ## 🛠️ Development
 
