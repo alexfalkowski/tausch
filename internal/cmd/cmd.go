@@ -18,8 +18,8 @@ import (
 //  3. Decodes the YAML configuration (via internal/config.Decode).
 //  4. Derives the command name (via (*flag.Values).Name) and looks up the
 //     matching command entry (via (*config.Config).GetCommand).
-//  5. Writes the configured `stdout` payload to stdout if present; otherwise it
-//     writes the configured `stderr` payload to stderr (via internal/io.Write).
+//  5. Writes the configured `stdout` payload to stdout if non-empty; otherwise
+//     it writes the configured `stderr` payload to stderr (via internal/io.Write).
 //
 // The configured stdout/stderr payloads are strings in tausch's `kind:data`
 // format (for example `text:...`, `file:...`, `base64:...`) and are decoded by
@@ -35,7 +35,8 @@ import (
 //     decode/write steps fail, Run writes the error to stderr and returns 1.
 //   - If the command's configured `stdout` is non-empty and is successfully
 //     written, Run returns 0.
-//   - Otherwise, Run writes the configured `stderr` payload and returns 1.
+//   - Otherwise, Run writes the configured `stderr` payload and returns 1. If
+//     both payloads are empty, Run returns 1 with no configured output.
 //
 // Run owns user-facing error output for the CLI flow; callers should treat the
 // returned status code as the complete result.

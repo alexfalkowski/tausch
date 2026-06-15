@@ -34,10 +34,11 @@
 //
 // In normal operation:
 //
-//   - If the configured command's `stdout` value is present and successfully
+//   - If the configured command's `stdout` value is non-empty and successfully
 //     written, [Run] returns exit code 0.
 //   - Otherwise, it attempts to write the configured `stderr` value and returns
-//     exit code 1.
+//     exit code 1. If both values are empty, it returns exit code 1 with no
+//     configured output.
 //
 // Failures such as flag parsing problems, missing or unreadable configuration,
 // YAML decoding errors, command lookup failures, or decode/write errors while

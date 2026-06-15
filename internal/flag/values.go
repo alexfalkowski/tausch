@@ -31,6 +31,11 @@ func Parse(output io.Writer, args []string) (*Values, error) {
 		fmt.Fprintln(set.Output(), "Command tokens after -- are joined with spaces")
 		fmt.Fprintln(set.Output(), "and matched against a config entry's name.")
 		fmt.Fprintln(set.Output())
+		fmt.Fprintln(set.Output(), "Config path resolution:")
+		fmt.Fprintln(set.Output(), "  1. -config <path>")
+		fmt.Fprintln(set.Output(), "  2. TAUSCH_CONFIG")
+		fmt.Fprintln(set.Output(), "  3. os.UserConfigDir()/tausch/config.yml")
+		fmt.Fprintln(set.Output())
 		fmt.Fprintln(set.Output(), "Flags:")
 		set.PrintDefaults()
 	}

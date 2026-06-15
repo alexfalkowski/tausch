@@ -76,6 +76,8 @@ Thank you for creating them.
 
 ## ⚡ Quick Start
 
+Tausch requires a Go toolchain compatible with the module's `go.mod` directive.
+
 Install the CLI:
 
 ```bash
@@ -87,7 +89,7 @@ Create a config:
 ```yaml
 cmds:
   - name: go version
-    stdout: "text:go version go1.26.0 darwin/arm64"
+    stdout: "text:stubbed go version"
   - name: go bob
     stderr: "text:go bob: unknown command"
 ```
@@ -103,7 +105,7 @@ tausch -config config.yml -- go version
 
 ## ⚙️ Configuration
 
-The configuration is a YAML document with a top-level `cmds` list. Each command entry has a `name` and either `stdout` or `stderr`.
+The configuration is a YAML document with a top-level `cmds` list. Each command entry has a `name` and may set `stdout` or `stderr`.
 
 The `stdout` and `stderr` values use a `kind:data` format:
 
@@ -130,7 +132,9 @@ cmds:
 ```
 
 > [!IMPORTANT]
-> Configure only one output stream per command. A command with `stdout` is treated as successful and exits `0`; a command with `stderr` and no `stdout` is treated as failing and exits `1`. Configuring both `stdout` and `stderr` for one command is rejected.
+> Configure exactly one non-empty encoded output stream for each useful stub. A non-empty `stdout` value is treated as successful and exits `0`; if `stdout` is empty or omitted, Tausch falls back to `stderr` and exits `1`. If both streams are empty or omitted, the command exits `1` with no configured output. To stub a successful command that writes zero bytes, use `stdout: "text:"`. Configuring both `stdout` and `stderr` for one command is rejected.
+
+Payload values and `file:` paths are decoded only when the matching command is invoked, not when the YAML file is loaded.
 
 ## 🎙️ Capture
 
@@ -202,6 +206,12 @@ echo $? # 1
 
 ### 📦 Library
 
+Add the module dependency in the Go module that uses the wrapper:
+
+```bash
+go get github.com/alexfalkowski/tausch@latest
+```
+
 In your code you would use it just like you would the [exec](https://pkg.go.dev/os/exec).
 
 ```go
@@ -220,6 +230,13 @@ The wrapper above invokes the `tausch` binary with `-- go version`, so the comma
 For library use, configure Tausch with `TAUSCH_CONFIG` or the default config location before running the command. `CommandContext` arguments are only the target command tokens; passing `-config` there would make it part of the stubbed command name instead of a Tausch CLI flag.
 
 ## 🛠️ Development
+
+For a fresh checkout, initialize the shared build tooling and module dependencies first:
+
+```bash
+git submodule update --init
+make dep
+```
 
 Build the CLI from the repository root:
 
