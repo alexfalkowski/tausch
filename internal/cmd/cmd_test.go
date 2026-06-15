@@ -20,6 +20,7 @@ func TestRunInvalidArgs(t *testing.T) {
 	require.Contains(t, stderr.String(), "flag provided but not defined")
 	require.Contains(t, stderr.String(), "Usage of tausch:")
 	require.Contains(t, stderr.String(), "tausch [flags] -- <command tokens...>")
+	require.Contains(t, stderr.String(), "TAUSCH_CONFIG")
 }
 
 func TestRunConfigError(t *testing.T) {

@@ -2,6 +2,8 @@ package exec_test
 
 import (
 	"bytes"
+	"context"
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -145,6 +147,43 @@ func TestCommandError(t *testing.T) {
 	require.Equal(t, readFixture(t, "../test/stderr/go_bob.txt"), stderr.Bytes())
 }
 
+func ExampleCommandContext() {
+	dir, err := os.MkdirTemp("", "tausch-example")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer os.RemoveAll(dir)
+
+	tausch := filepath.Join(dir, "tausch")
+	if err := os.WriteFile(tausch, []byte("#!/bin/sh\nprintf '%s\\n' \"$*\"\n"), 0o600); err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := os.Chmod(tausch, 0o700); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	oldPath := os.Getenv("PATH")
+	os.Setenv("PATH", dir)
+	defer os.Setenv("PATH", oldPath)
+
+	oldConfig, hadConfig := os.LookupEnv("TAUSCH_CONFIG")
+	os.Setenv("TAUSCH_CONFIG", "config.yml")
+	defer restoreEnv("TAUSCH_CONFIG", oldConfig, hadConfig)
+
+	out, err := exec.CommandContext(context.Background(), "go", "version").Output()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Print(string(out))
+	// Output:
+	// -- go version
+}
+
 func readFixture(t *testing.T, path string) []byte {
 	t.Helper()
 
@@ -159,4 +198,13 @@ func writeExecutable(t *testing.T, path, script string) {
 
 	require.NoError(t, os.WriteFile(path, []byte(script), 0o600))
 	require.NoError(t, os.Chmod(path, 0o700))
+}
+
+func restoreEnv(key, value string, hadValue bool) {
+	if hadValue {
+		os.Setenv(key, value)
+		return
+	}
+
+	os.Unsetenv(key)
 }
