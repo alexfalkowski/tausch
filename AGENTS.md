@@ -2,11 +2,9 @@
 
 This repository is a small Go CLI + library that stubs command execution output based on a YAML config.
 
-## Shared skills
+## Shared guidance
 
-This repository uses the shared skills from `bin/skills/`. Read
-`bin/AGENTS.md` for the canonical shared skill list and use the smallest
-matching skill for the task.
+Use `bin/AGENTS.md` for shared skills and cross-repository defaults.
 
 ## Quick start (local)
 
@@ -203,6 +201,5 @@ Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either v
 ## Gotchas
 
 - **Submodule dependency**: Many `make` targets (lint/specs/coverage/sec/clean/etc.) are defined in `bin/build/make/*.mak` and call scripts under `bin/`. Ensure `bin/` submodule is initialized.
-  - The `submodule` target is intentionally provided by `include bin/build/make/git.mak`. A brand-new checkout may need the submodule initialized once before Makefile-provided targets are available, and CI handles this setup. Do not raise the missing-`bin` first-run bootstrap behavior as a code issue.
 - **Tests require built binary**: `go test ./...` will fail unless `tausch` is built in the repo root (run `make build` first).
 - **Command name matching**: command lookup is string-based (joined args after `--`); minor spacing differences will cause `command not found` errors.
