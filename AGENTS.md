@@ -10,8 +10,11 @@ Use `bin/AGENTS.md` for shared skills and cross-repository defaults.
 
 ### Prereqs
 
-- Go toolchain: `go.mod` declares `go 1.26.0`.
-- Some Make targets come from the `bin/` git submodule (see `.gitmodules`). If targets fail with missing files, initialize the submodule first:
+- Go toolchain details live in `go.mod`.
+- Some Make targets come from the `bin/` git submodule (see `.gitmodules`). If
+  targets fail with missing files, initialize the submodule first. Use
+  `make submodule` once the shared checkout is present; see `bin/AGENTS.md` for
+  fresh-clone bootstrap details.
 
 ```bash
 make submodule
@@ -23,11 +26,12 @@ make submodule
 make dep
 make lint
 make build
-go test ./...
+make specs
 ```
 
 Notes:
-- `go test ./...` expects the `tausch` binary to exist for `exec/exec_test.go`, so run `make build` (or `go build`) first.
+- The specs expect the `tausch` binary to exist for `exec/exec_test.go`, so run
+  `make build` first when needed.
 
 ## Essential commands
 
@@ -46,7 +50,7 @@ make build
 Provided via included makefiles from the `bin/` submodule (`Makefile:1-3` includes `bin/build/make/go.mak`):
 
 ```bash
-make dep        # go mod download + tidy + vendor
+make dep
 make tidy
 make vendor
 make download
@@ -54,13 +58,7 @@ make download
 
 ### Test
 
-- Fast/local (requires `make build` first):
-
-```bash
-go test ./...
-```
-
-- CI-style specs (requires `gotestsum`):
+- Repository specs:
 
 ```bash
 make specs
@@ -92,7 +90,7 @@ Lint configuration lives in `.golangci.yml`.
 
 ### Security
 
-- Run govulncheck:
+- Run the repository security target:
 
 ```bash
 make sec
@@ -119,14 +117,15 @@ make func-coverage
 
 ### Misc (only if you see them used)
 
-These targets exist in `bin/build/make/go.mak` but require external tools:
+These targets exist in `bin/build/make/go.mak` but may require optional
+external tools:
 
-- `make codecov-upload` (needs `codecovcli`)
+- `make codecov-upload`
 - `make benchmark` / `make benchmark-pprof`
-- `make create-diagram` (needs `goda`, `dot`)
-- `make create-certs` (needs `mkcert`)
-- `make analyse` (uses `gsa`)
-- `make money` (uses `scc`)
+- `make create-diagram`
+- `make create-certs`
+- `make analyse`
+- `make money`
 
 ## Project structure
 
@@ -201,5 +200,6 @@ Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either v
 ## Gotchas
 
 - **Submodule dependency**: Many `make` targets (lint/specs/coverage/sec/clean/etc.) are defined in `bin/build/make/*.mak` and call scripts under `bin/`. Ensure `bin/` submodule is initialized.
-- **Tests require built binary**: `go test ./...` will fail unless `tausch` is built in the repo root (run `make build` first).
+- **Tests require built binary**: specs need the `tausch` binary in the repo
+  root, so run `make build` first when needed.
 - **Command name matching**: command lookup is string-based (joined args after `--`); minor spacing differences will cause `command not found` errors.
