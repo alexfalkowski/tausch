@@ -5,3 +5,6 @@ include bin/build/make/git.mak
 # Build the cli.
 build:
 	@go build
+
+# Run specs after building the cli.
+specs: build
