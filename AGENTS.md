@@ -32,6 +32,9 @@ make specs
 Notes:
 - The specs expect the `tausch` binary to exist for `exec/exec_test.go`, so run
   `make build` first when needed.
+- Do not add a local `specs` target or `specs` prerequisite in this Makefile;
+  `specs` is owned by the shared `bin/build/make/go.mak` fragment. CI encodes
+  the required `make build` before `make specs` ordering.
 
 ## Essential commands
 
@@ -201,5 +204,7 @@ Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either v
 
 - **Submodule dependency**: Many `make` targets (lint/specs/coverage/sec/clean/etc.) are defined in `bin/build/make/*.mak` and call scripts under `bin/`. Ensure `bin/` submodule is initialized.
 - **Tests require built binary**: specs need the `tausch` binary in the repo
-  root, so run `make build` first when needed.
+  root, so run `make build` first when needed. Do not override or extend the
+  shared `specs` target locally; keep the build-before-specs ordering in
+  workflow guidance and CI.
 - **Command name matching**: command lookup is string-based (joined args after `--`); minor spacing differences will cause `command not found` errors.
