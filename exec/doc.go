@@ -8,9 +8,9 @@
 // binary so that stdout/stderr and exit codes can be stubbed based on a
 // tausch YAML configuration.
 //
-// Concretely, [CommandContext] creates an [os/exec.Cmd] whose executable is
-// the `tausch` binary and whose arguments are prefixed with `--`, followed by
-// the command you want to run.
+// Concretely, [Command] and [CommandContext] create an [os/exec.Cmd] whose
+// executable is the `tausch` binary and whose arguments are prefixed with `--`,
+// followed by the command you want to run.
 //
 // # Executable resolution
 //
@@ -33,13 +33,14 @@
 // itself; for library use, configure tausch with `TAUSCH_CONFIG` or the default
 // config location before running the returned command.
 //
-// Arguments passed to [CommandContext] are target command tokens only. They are
-// always placed after `--`, so passing `-config` to [CommandContext] would make
-// it part of the stubbed command name instead of a tausch CLI flag.
+// Arguments passed to [Command] or [CommandContext] are target command tokens
+// only. They are always placed after `--`, so passing `-config` to either
+// function would make it part of the stubbed command name instead of a tausch
+// CLI flag.
 //
 // # Example
 //
-//	cmd := exec.CommandContext(ctx, "go", "version")
+//	cmd := exec.Command("go", "version")
 //	out, err := cmd.CombinedOutput()
 //
 // This will execute something equivalent to:
