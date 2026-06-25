@@ -28,8 +28,8 @@ type Writer = io.Writer
 // decoded before being copied to w. On successful output, Write returns (true, nil).
 //
 // The returned boolean indicates whether output was attempted/emitted. This is used
-// by the CLI orchestration to decide whether a command should be treated as having
-// produced stdout (success path) or should fall back to stderr (error path).
+// by the CLI orchestration to decide whether stdout was produced or whether it
+// should fall back to stderr.
 //
 // Errors from decoding or from the underlying writer are returned.
 func Write(w io.Writer, data string) (bool, error) {

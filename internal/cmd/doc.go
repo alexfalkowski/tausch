@@ -34,8 +34,10 @@
 //
 // In normal operation:
 //
-//   - If the configured command's `stdout` value is non-empty and successfully
-//     written, [Run] returns exit code 0.
+//   - If the configured command has `exit_code`, [Run] returns that code after
+//     successfully writing the configured output.
+//   - Without `exit_code`, if the configured command's `stdout` value is
+//     non-empty and successfully written, [Run] returns exit code 0.
 //   - Otherwise, it attempts to write the configured `stderr` value and returns
 //     exit code 1. If both values are empty, it returns exit code 1 with no
 //     configured output.

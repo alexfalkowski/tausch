@@ -33,8 +33,10 @@ import (
 //     stderr and Run returns 1.
 //   - If config resolution, config decoding, command lookup, or stdout/stderr
 //     decode/write steps fail, Run writes the error to stderr and returns 1.
-//   - If the command's configured `stdout` is non-empty and is successfully
-//     written, Run returns 0.
+//   - If the configured command has `exit_code`, Run returns that code after
+//     successfully writing the configured output.
+//   - Without `exit_code`, if the command's configured `stdout` is non-empty and
+//     successfully written, Run returns 0.
 //   - Otherwise, Run writes the configured `stderr` payload and returns 1. If
 //     both payloads are empty, Run returns 1 with no configured output.
 //
@@ -72,13 +74,22 @@ func Run(stdout, stderr io.Writer, args []string) int {
 	}
 
 	if wroteStdout {
-		return 0
+		return exitCode(command, 0)
 	}
 
 	_, err = io.Write(stderr, command.Stderr)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
+		return 1
 	}
 
-	return 1
+	return exitCode(command, 1)
+}
+
+func exitCode(command *config.Command, defaultCode int) int {
+	if command.ExitCode == nil {
+		return defaultCode
+	}
+
+	return *command.ExitCode
 }

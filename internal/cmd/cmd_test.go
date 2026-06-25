@@ -128,6 +128,23 @@ func TestRunStdout(t *testing.T) {
 	require.Empty(t, stderr.Bytes())
 }
 
+func TestRunStdoutExitCode(t *testing.T) {
+	t.Chdir("../..")
+
+	args := []string{
+		"-config", "test/configs/exit_code.yml",
+		"--",
+		"go", "version",
+	}
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	code := cmd.Run(stdout, stderr, args)
+
+	require.Equal(t, 7, code)
+	require.NotEmpty(t, stdout.Bytes())
+	require.Empty(t, stderr.Bytes())
+}
+
 func TestRunStderrWriteError(t *testing.T) {
 	args := []string{
 		"-config", "../../test/configs/stderr_invalid_base64.yml",
@@ -158,4 +175,36 @@ func TestRunStderr(t *testing.T) {
 	require.Equal(t, 1, code)
 	require.Empty(t, stdout.Bytes())
 	require.NotEmpty(t, stderr.Bytes())
+}
+
+func TestRunStderrExitCode(t *testing.T) {
+	t.Chdir("../..")
+
+	args := []string{
+		"-config", "test/configs/exit_code.yml",
+		"--",
+		"go", "bob",
+	}
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	code := cmd.Run(stdout, stderr, args)
+
+	require.Equal(t, 127, code)
+	require.Empty(t, stdout.Bytes())
+	require.NotEmpty(t, stderr.Bytes())
+}
+
+func TestRunNoOutputExitCode(t *testing.T) {
+	args := []string{
+		"-config", "../../test/configs/exit_code.yml",
+		"--",
+		"grep", "needle", "file.txt",
+	}
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	code := cmd.Run(stdout, stderr, args)
+
+	require.Equal(t, 1, code)
+	require.Empty(t, stdout.Bytes())
+	require.Empty(t, stderr.Bytes())
 }

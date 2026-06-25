@@ -14,6 +14,15 @@ func TestDecodeSuccess(t *testing.T) {
 	require.NotNil(t, c)
 }
 
+func TestDecodeExitCode(t *testing.T) {
+	c, err := config.Decode("../../test/configs/exit_code.yml")
+
+	require.NoError(t, err)
+	require.NotNil(t, c)
+	require.NotNil(t, c.Cmds[0].ExitCode)
+	require.Equal(t, 7, *c.Cmds[0].ExitCode)
+}
+
 func TestDecodeError(t *testing.T) {
 	values := []string{
 		"../../test/configs/none.yml",
@@ -36,6 +45,14 @@ func TestDecodeMultipleOutputs(t *testing.T) {
 	require.Nil(t, c)
 	require.ErrorIs(t, err, config.ErrMultipleOutputs)
 	require.Contains(t, err.Error(), `command "go version"`)
+}
+
+func TestDecodeInvalidExitCode(t *testing.T) {
+	c, err := config.Decode("../../test/configs/invalid_exit_code.yml")
+
+	require.Nil(t, c)
+	require.ErrorIs(t, err, config.ErrInvalidExitCode)
+	require.Contains(t, err.Error(), `command "go bob"`)
 }
 
 func TestGetCommandNilCommand(t *testing.T) {

@@ -1,0 +1,4 @@
+cmds:
+  - name: go bob
+    stderr: file:../test/stderr/go_bob.txt
+    exit_code: 127
