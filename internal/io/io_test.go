@@ -17,18 +17,20 @@ func TestWriteSuccess(t *testing.T) {
 	require.NoError(t, os.WriteFile(file, want, 0o600))
 
 	values := []struct {
+		dir   string
 		name  string
 		value string
 	}{
 		{name: "text", value: "text: test\n"},
 		{name: "base64", value: "base64:IHRlc3QK"},
-		{name: "file", value: "file:" + file},
+		{name: "file absolute", value: "file:" + file},
+		{dir: filepath.Dir(file), name: "file relative", value: "file:" + filepath.Base(file)},
 	}
 
 	for _, tt := range values {
 		t.Run(tt.name, func(t *testing.T) {
 			buffer := &bytes.Buffer{}
-			wrote, err := io.Write(buffer, tt.value)
+			wrote, err := io.Write(buffer, tt.value, tt.dir)
 
 			require.NoError(t, err)
 			require.True(t, wrote)
@@ -46,7 +48,7 @@ func TestWriteError(t *testing.T) {
 	for _, value := range values {
 		t.Run(value, func(t *testing.T) {
 			buffer := &bytes.Buffer{}
-			wrote, err := io.Write(buffer, value)
+			wrote, err := io.Write(buffer, value, "")
 
 			require.Error(t, err)
 			require.False(t, wrote)
@@ -66,7 +68,7 @@ func TestWriteKindNotFound(t *testing.T) {
 	for _, value := range values {
 		t.Run(value, func(t *testing.T) {
 			buffer := &bytes.Buffer{}
-			wrote, err := io.Write(buffer, value)
+			wrote, err := io.Write(buffer, value, "")
 
 			require.ErrorIs(t, err, io.ErrKindNotFound)
 			require.False(t, wrote)
@@ -77,7 +79,7 @@ func TestWriteKindNotFound(t *testing.T) {
 
 func TestWritePreservesDataAfterFirstColon(t *testing.T) {
 	buffer := &bytes.Buffer{}
-	wrote, err := io.Write(buffer, "text:a:b")
+	wrote, err := io.Write(buffer, "text:a:b", "")
 
 	require.NoError(t, err)
 	require.True(t, wrote)
@@ -86,7 +88,7 @@ func TestWritePreservesDataAfterFirstColon(t *testing.T) {
 
 func TestWriteEmpty(t *testing.T) {
 	buffer := &bytes.Buffer{}
-	wrote, err := io.Write(buffer, "")
+	wrote, err := io.Write(buffer, "", "")
 
 	require.NoError(t, err)
 	require.False(t, wrote)
@@ -94,7 +96,7 @@ func TestWriteEmpty(t *testing.T) {
 }
 
 func TestWriteWriterError(t *testing.T) {
-	wrote, err := io.Write(test.FailingWriter{}, "text:test")
+	wrote, err := io.Write(test.FailingWriter{}, "text:test", "")
 
 	require.ErrorIs(t, err, test.ErrWriteFailed)
 	require.True(t, wrote)

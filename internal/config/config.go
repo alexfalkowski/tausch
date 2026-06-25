@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"slices"
 
 	"go.yaml.in/yaml/v3"
@@ -34,7 +35,8 @@ const maxExitCode = 255
 // The YAML is expected to match the tausch schema (a top-level `cmds` list). This
 // function validates command-level invariants, but it does not validate that any
 // commands are present or that stdout/stderr payload strings are valid
-// `kind:data` values.
+// `kind:data` values. The decoded config records the absolute directory of path
+// so relative file payloads can be resolved from the config file location.
 //
 // The returned *Config is ready to be queried with [Config.GetCommand].
 //
@@ -42,13 +44,20 @@ const maxExitCode = 255
 // errors, and validation failures such as [ErrMultipleOutputs] or
 // [ErrInvalidExitCode].
 func Decode(path string) (*Config, error) {
-	f, err := os.Open(path)
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		return nil, err
+	}
+
+	f, err := os.Open(abs)
 	if err != nil {
 		return nil, err
 	}
 	defer f.Close()
 
 	var config Config
+	config.Dir = filepath.Dir(abs)
+
 	if err := yaml.NewDecoder(f).Decode(&config); err != nil {
 		return nil, err
 	}
@@ -68,6 +77,9 @@ func Decode(path string) (*Config, error) {
 // The stdout/stderr fields inside each command are stored as opaque strings here;
 // decoding those values into bytes is handled by internal/io.
 type Config struct {
+	// Dir is the absolute directory containing the decoded YAML config file.
+	Dir string `yaml:"-"`
+
 	// Cmds is the set of configured command stubs.
 	Cmds []*Command `yaml:"cmds"`
 }

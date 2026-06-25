@@ -19,7 +19,8 @@ import (
 //  4. Derives the command name (via (*flag.Values).Name) and looks up the
 //     matching command entry (via (*config.Config).GetCommand).
 //  5. Writes the configured `stdout` payload to stdout if non-empty; otherwise
-//     it writes the configured `stderr` payload to stderr (via internal/io.Write).
+//     it writes the configured `stderr` payload to stderr (via internal/io.Write),
+//     resolving relative file payloads from the config file directory.
 //
 // The configured stdout/stderr payloads are strings in tausch's `kind:data`
 // format (for example `text:...`, `file:...`, `base64:...`) and are decoded by
@@ -67,7 +68,7 @@ func Run(stdout, stderr io.Writer, args []string) int {
 		return 1
 	}
 
-	wroteStdout, err := io.Write(stdout, command.Stdout)
+	wroteStdout, err := io.Write(stdout, command.Stdout, cfg.Dir)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 1
@@ -77,7 +78,7 @@ func Run(stdout, stderr io.Writer, args []string) int {
 		return exitCode(command, 0)
 	}
 
-	_, err = io.Write(stderr, command.Stderr)
+	_, err = io.Write(stderr, command.Stderr, cfg.Dir)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 1
