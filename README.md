@@ -119,7 +119,7 @@ The supported kinds are:
 
 - `text:<literal text>` writes the text bytes as-is.
 - `base64:<base64-encoded bytes>` decodes standard base64 and writes the bytes.
-- `file:<path>` reads the file at the path and writes its bytes. Relative paths are resolved from the current working directory of the `tausch` process, not from the config file location.
+- `file:<path>` reads the file at the path and writes its bytes. Relative paths are resolved from the directory containing the config file.
 
 The configuration can look like:
 

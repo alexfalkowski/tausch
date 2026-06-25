@@ -168,7 +168,7 @@ Config path is resolved in this order (`internal/flag/values.go:29-42`):
 - `base64:<base64-encoded bytes>`
 - `file:<path to file>`
 
-Relative `file:` paths are resolved from the current working directory of the `tausch` process, not from the config file location.
+Relative `file:` paths are resolved from the directory containing the config file.
 
 If the prefix is unknown, decoding fails with `ErrKindNotFound`.
 

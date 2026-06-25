@@ -11,7 +11,8 @@
 //   - Resolve the tausch YAML config path (delegated to internal/flag).
 //   - Decode the YAML configuration (delegated to internal/config).
 //   - Look up the command entry by name (delegated to internal/config).
-//   - Decode and write configured stdout/stderr payloads (delegated to internal/io).
+//   - Decode and write configured stdout/stderr payloads relative to the config
+//     file directory (delegated to internal/io).
 //   - Return an exit status code that the CLI can use as its process exit code.
 //
 // # Command name matching

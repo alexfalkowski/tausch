@@ -32,7 +32,8 @@
 //   - file:<path to a file whose bytes should be written>
 //
 // This package treats those fields as opaque strings; it does not decode or
-// validate the `kind:data` format.
+// validate the `kind:data` format. It records the config file directory so the
+// CLI can resolve relative `file:` payloads from the config location.
 //
 // # Command lookup
 //

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -25,19 +26,20 @@ type Writer = io.Writer
 // If data is the empty string, Write performs no writes and returns (false, nil).
 //
 // If data is non-empty, it is expected to be in tausch's `kind:data` format and
-// decoded before being copied to w. On successful output, Write returns (true, nil).
+// decoded before being copied to w. Relative file payloads are resolved from dir.
+// On successful output, Write returns (true, nil).
 //
 // The returned boolean indicates whether output was attempted/emitted. This is used
 // by the CLI orchestration to decide whether stdout was produced or whether it
 // should fall back to stderr.
 //
 // Errors from decoding or from the underlying writer are returned.
-func Write(w io.Writer, data string) (bool, error) {
+func Write(w io.Writer, data, dir string) (bool, error) {
 	if data == "" {
 		return false, nil
 	}
 
-	r, err := decode(data)
+	r, err := decode(data, dir)
 	if err != nil {
 		return false, err
 	}
@@ -47,7 +49,7 @@ func Write(w io.Writer, data string) (bool, error) {
 	return true, err
 }
 
-func decode(value string) (io.ReadCloser, error) {
+func decode(value, dir string) (io.ReadCloser, error) {
 	kind, data, ok := strings.Cut(value, ":")
 	if !ok {
 		return nil, ErrKindNotFound
@@ -57,7 +59,7 @@ func decode(value string) (io.ReadCloser, error) {
 	case "text":
 		return io.NopCloser(strings.NewReader(data)), nil
 	case "file":
-		return os.Open(data)
+		return os.Open(filePath(data, dir))
 	case "base64":
 		d, err := base64.StdEncoding.DecodeString(data)
 		if err != nil {
@@ -68,4 +70,12 @@ func decode(value string) (io.ReadCloser, error) {
 	}
 
 	return nil, ErrKindNotFound
+}
+
+func filePath(path, dir string) string {
+	if dir == "" || filepath.IsAbs(path) {
+		return path
+	}
+
+	return filepath.Join(dir, path)
 }

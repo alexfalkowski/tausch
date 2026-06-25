@@ -1,9 +1,9 @@
 cmds:
   - name: go version
-    stdout: file:test/stdout/go_version.txt
+    stdout: file:../stdout/go_version.txt
     exit_code: 7
   - name: go bob
-    stderr: file:test/stderr/go_bob.txt
+    stderr: file:../stderr/go_bob.txt
     exit_code: 127
   - name: grep needle file.txt
     exit_code: 1

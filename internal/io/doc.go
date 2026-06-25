@@ -9,7 +9,8 @@
 // The tausch YAML config stores `stdout` and `stderr` as strings in a
 // `kind:data` format (for example `text:hello`, `file:/tmp/out.txt`,
 // `base64:...`). This package decodes those payloads and copies the resulting
-// stream to the supplied writer.
+// stream to the supplied writer. Relative `file:` paths are resolved from the
+// config file directory supplied by the caller.
 //
 // # Write semantics
 //

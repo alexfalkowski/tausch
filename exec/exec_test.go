@@ -15,7 +15,7 @@ func TestPathCommandSuccess(t *testing.T) {
 	require.NoError(t, err)
 
 	t.Setenv("PATH", root)
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/config.yml")
 
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
@@ -33,7 +33,7 @@ func TestPathCommandSuccess(t *testing.T) {
 func TestCommandSuccess(t *testing.T) {
 	t.Setenv("PATH", t.TempDir())
 	t.Setenv("TAUSCH_PATH", "../tausch")
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/config.yml")
 
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
@@ -73,7 +73,7 @@ func TestCommandPrefersPathOverTauschPath(t *testing.T) {
 func TestCommandFallsBackToTauschPath(t *testing.T) {
 	t.Setenv("PATH", t.TempDir())
 	t.Setenv("TAUSCH_PATH", "../tausch")
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/config.yml")
 
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
@@ -145,7 +145,7 @@ func TestCommandPassesVariadicArgs(t *testing.T) {
 func TestCommandError(t *testing.T) {
 	t.Setenv("PATH", t.TempDir())
 	t.Setenv("TAUSCH_PATH", "../tausch")
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec.yml")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/config.yml")
 
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
@@ -166,7 +166,7 @@ func TestCommandError(t *testing.T) {
 func TestCommandErrorExitCode(t *testing.T) {
 	t.Setenv("PATH", t.TempDir())
 	t.Setenv("TAUSCH_PATH", "../tausch")
-	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec_exit_code.yml")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/exit_code.yml")
 
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
