@@ -23,8 +23,8 @@
 //     (true, err).
 //
 // The returned boolean indicates whether output was attempted/emitted. The CLI
-// orchestration uses this to decide whether to treat a command as a "success"
-// path (stdout present) or "error" path (fallback to stderr + non-zero exit).
+// orchestration uses this to choose between stdout and the fallback stderr path;
+// configured exit status is handled outside this package.
 //
 // # Writer alias
 //

@@ -14,12 +14,18 @@
 //	cmds:
 //	  - name: "go version"
 //	    stdout: "text:go version go1.25.0 darwin/arm64\n"
-//	    stderr: ""
+//	    exit_code: 0
+//	  - name: "grep needle file.txt"
+//	    exit_code: 1
 //
-// # Stdout/stderr payload encoding
+// # Output and exit status
 //
-// The `stdout` and `stderr` fields are strings that are interpreted elsewhere
-// (see internal/io). They use a `kind:data` format such as:
+// Each command can configure at most one non-empty `stdout` or `stderr` payload.
+// The optional `exit_code` field overrides the CLI's default exit status and
+// must be between 0 and 255.
+//
+// The `stdout` and `stderr` fields are strings interpreted elsewhere (see
+// internal/io). They use a `kind:data` format such as:
 //
 //   - text:<literal text>
 //   - base64:<base64-encoded bytes>

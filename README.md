@@ -105,7 +105,7 @@ tausch -config config.yml -- go version
 
 ## ⚙️ Configuration
 
-The configuration is a YAML document with a top-level `cmds` list. Each command entry has a `name` and may set `stdout` or `stderr`.
+The configuration is a YAML document with a top-level `cmds` list. Each command entry has a `name` and may set `stdout`, `stderr`, or `exit_code`.
 
 The `stdout` and `stderr` values use a `kind:data` format:
 
@@ -129,10 +129,13 @@ cmds:
     stdout: file:test/stdout/go_version.txt
   - name: go bob
     stderr: file:test/stderr/go_bob.txt
+    exit_code: 127
+  - name: grep needle file.txt
+    exit_code: 1
 ```
 
 > [!IMPORTANT]
-> Configure exactly one non-empty encoded output stream for each useful stub. A non-empty `stdout` value is treated as successful and exits `0`; if `stdout` is empty or omitted, Tausch falls back to `stderr` and exits `1`. If both streams are empty or omitted, the command exits `1` with no configured output. To stub a successful command that writes zero bytes, use `stdout: "text:"`. Configuring both `stdout` and `stderr` for one command is rejected.
+> Configure at most one non-empty encoded output stream for each stub. By default, a non-empty `stdout` value exits `0`; otherwise, Tausch falls back to `stderr` and exits `1`. If both streams are empty or omitted, the command exits `1` with no configured output. Set `exit_code` to override the default after output is written successfully; valid values are `0` through `255`. To stub a successful command that writes zero bytes, use `stdout: "text:"`. Configuring both `stdout` and `stderr` for one command is rejected.
 
 Payload values and `file:` paths are decoded only when the matching command is invoked, not when the YAML file is loaded.
 

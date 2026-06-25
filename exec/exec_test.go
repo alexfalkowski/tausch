@@ -163,6 +163,27 @@ func TestCommandError(t *testing.T) {
 	require.Equal(t, readFixture(t, "../test/stderr/go_bob.txt"), stderr.Bytes())
 }
 
+func TestCommandErrorExitCode(t *testing.T) {
+	t.Setenv("PATH", t.TempDir())
+	t.Setenv("TAUSCH_PATH", "../tausch")
+	t.Setenv("TAUSCH_CONFIG", "../test/configs/exec_exit_code.yml")
+
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+
+	cmd := exec.CommandContext(t.Context(), "go", "bob")
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
+
+	err := cmd.Run()
+	require.Error(t, err)
+	require.NoError(t, cmd.Err)
+	require.NotNil(t, cmd.ProcessState)
+	require.Equal(t, 127, cmd.ProcessState.ExitCode())
+	require.Empty(t, stdout.Bytes())
+	require.Equal(t, readFixture(t, "../test/stderr/go_bob.txt"), stderr.Bytes())
+}
+
 func readFixture(t *testing.T, path string) []byte {
 	t.Helper()
 

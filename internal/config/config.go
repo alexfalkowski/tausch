@@ -16,11 +16,18 @@ import (
 var ErrCommandNotFound = errors.New("command not found")
 
 // ErrMultipleOutputs is returned when a command configures both stdout and
-// stderr. A command stub must choose one output stream because stdout indicates
-// success and stderr indicates failure.
+// stderr. A command stub can emit one configured output stream.
 //
 // Callers typically compare with errors.Is(err, ErrMultipleOutputs).
 var ErrMultipleOutputs = errors.New("multiple outputs configured")
+
+// ErrInvalidExitCode is returned when a command configures an exit code outside
+// the supported process exit status range.
+//
+// Callers typically compare with errors.Is(err, ErrInvalidExitCode).
+var ErrInvalidExitCode = errors.New("invalid exit code")
+
+const maxExitCode = 255
 
 // Decode reads a YAML configuration file from path and decodes it into a [Config].
 //
@@ -32,7 +39,8 @@ var ErrMultipleOutputs = errors.New("multiple outputs configured")
 // The returned *Config is ready to be queried with [Config.GetCommand].
 //
 // Errors are returned for I/O failures (opening/reading the file), YAML decoding
-// errors, and validation failures such as [ErrMultipleOutputs].
+// errors, and validation failures such as [ErrMultipleOutputs] or
+// [ErrInvalidExitCode].
 func Decode(path string) (*Config, error) {
 	f, err := os.Open(path)
 	if err != nil {
@@ -67,7 +75,8 @@ type Config struct {
 // Validate checks command-level config invariants.
 //
 // It permits nil command entries so lookup remains tolerant of sparse decoded
-// data, but non-nil commands must not configure both stdout and stderr.
+// data, but non-nil commands must not configure both stdout and stderr and must
+// keep exit codes in range.
 func (c *Config) Validate() error {
 	for _, command := range c.Cmds {
 		if command == nil {
@@ -76,6 +85,10 @@ func (c *Config) Validate() error {
 
 		if command.hasMultipleOutputs() {
 			return fmt.Errorf("command %q: %w", command.Name, ErrMultipleOutputs)
+		}
+
+		if command.hasInvalidExitCode() {
+			return fmt.Errorf("command %q: %w", command.Name, ErrInvalidExitCode)
 		}
 	}
 
@@ -104,24 +117,31 @@ func (c *Config) GetCommand(name string) (*Command, error) {
 
 // Command is a single command stub entry in the configuration.
 //
-// Name identifies the command to match (as derived by the CLI), and Stdout/Stderr
-// define what tausch should emit when that command is invoked.
+// Name identifies the command to match (as derived by the CLI), Stdout/Stderr
+// define what tausch should emit when that command is invoked, and ExitCode can
+// override the default process exit code.
 //
 // Stdout and Stderr are strings using tausch's `kind:data` format. Supported kinds
 // are decoded by internal/io (for example `text:...`, `file:...`, `base64:...`).
 type Command struct {
+	// ExitCode is the optional process exit code to return after successfully
+	// writing the configured output.
+	ExitCode *int `yaml:"exit_code"`
+
 	// Name is the exact command name to match (for example "go version").
 	Name string `yaml:"name"`
 
-	// Stdout is the encoded payload to write to stdout when the command is treated
-	// as successful (non-empty value).
+	// Stdout is the encoded payload to write to stdout.
 	Stdout string `yaml:"stdout"`
 
-	// Stderr is the encoded payload to write to stderr when stdout is empty and the
-	// command is treated as failing.
+	// Stderr is the encoded payload to write to stderr when stdout is empty.
 	Stderr string `yaml:"stderr"`
 }
 
 func (c *Command) hasMultipleOutputs() bool {
 	return c.Stdout != "" && c.Stderr != ""
+}
+
+func (c *Command) hasInvalidExitCode() bool {
+	return c.ExitCode != nil && (*c.ExitCode < 0 || *c.ExitCode > maxExitCode)
 }

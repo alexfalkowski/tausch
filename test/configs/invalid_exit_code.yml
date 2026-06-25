@@ -1,0 +1,4 @@
+cmds:
+  - name: go bob
+    stderr: text:go bob
+    exit_code: 256
