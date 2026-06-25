@@ -136,8 +136,7 @@ external tools:
 - `internal/cmd/`: CLI orchestration (parse flags, load config, find command entry, write stdout/stderr).
 - `internal/flag/`: argument parsing and config path resolution.
 - `internal/config/`: YAML config decoding and command lookup.
-- `internal/encoding/`: decodes `kind:data` values.
-- `internal/io/`: writes decoded bytes to the requested writer.
+- `internal/io/`: decodes `kind:data` values and writes bytes to the requested writer.
 - `exec/`: library wrapper around `os/exec` that runs the `tausch` binary transparently.
 - `test/`: fixtures (example configs and recorded stdout/stderr) and `test/reports/` output directory.
 
@@ -163,7 +162,7 @@ Config path is resolved in this order (`internal/flag/values.go:29-42`):
 
 ### Encoding format for stdout/stderr
 
-`stdout` / `stderr` values in config are strings with a `kind:data` prefix (`internal/encoding/encoding.go:13-25`):
+`stdout` / `stderr` values in config are strings with a `kind:data` prefix:
 
 - `text:<literal text>`
 - `base64:<base64-encoded bytes>`
