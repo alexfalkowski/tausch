@@ -62,18 +62,6 @@ As this is a single binary and ties into the already defined [cmd](https://pkg.g
 
 Of course you might not want another dependency, if that is the case then just copy the [code](https://github.com/alexfalkowski/tausch/blob/master/exec/exec.go).
 
-## ✨ Inspiration
-
-I have taken these ideas from using tools from my past, such as:
-
-- [vcr](https://github.com/vcr/vcr)
-- [go-vcr](https://github.com/dnaeon/go-vcr)
-
-Thank you for creating them.
-
-> [!NOTE]
-> One way to expand this tool in the future is to also run this once and record the outputs, if the need arises it will be added.
-
 ## ⚡ Quick Start
 
 Tausch requires a Go toolchain compatible with the module's `go.mod` directive.
@@ -141,21 +129,46 @@ Payload values and `file:` paths are decoded only when the matching command is i
 
 ## 🎙️ Capture
 
-To capture the combined `stdout` and `stderr` of a command, you can run:
+Capture real command output with shell redirection, then reference the recorded files from the config.
+
+For stdout:
+
+```bash
+go version > test/stdout/go_version.txt
+```
+
+For stderr:
+
+```bash
+go bob 2> test/stderr/go_bob.txt
+echo $? # copy this into exit_code when needed
+```
+
+For a command where you want both streams in one file:
 
 ```bash
 command &> path
 ```
 
-Examples:
+Then configure the recorded output:
+
+```yaml
+cmds:
+  - name: go version
+    stdout: file:test/stdout/go_version.txt
+  - name: go bob
+    stderr: file:test/stderr/go_bob.txt
+    exit_code: 127
+```
+
+To refresh a fixture, rerun the same redirect command:
 
 ```bash
-go version &> test/stdout/go_version.txt
-go bob &> test/stderr/go_bob.txt
+go version > test/stdout/go_version.txt
 ```
 
 > [!CAUTION]
-> `&>` combines both streams. If your stub needs to prove that output came from only one stream, capture stdout with `>` or stderr with `2>` instead.
+> `&>` combines stdout and stderr. Use `>` or `2>` when the stub should prove which stream produced the output.
 
 ## 🚀 Usage
 
