@@ -6,6 +6,25 @@ import (
 	"os/exec"
 )
 
+// Command returns an [exec.Cmd] that runs the given command through the
+// `tausch` CLI.
+//
+// It mirrors [os/exec.Command] for callers that do not need context
+// cancellation. The returned command executes the `tausch` binary and prefixes
+// the provided command with `--`, so this:
+//
+//	exec.Command("go", "version")
+//
+// results in an invocation equivalent to:
+//
+//	tausch -- go version
+//
+// Tausch CLI flags such as `-config` must be supplied through `TAUSCH_CONFIG` or
+// the default config location instead of through name or arg.
+func Command(name string, arg ...string) *exec.Cmd {
+	return exec.Command(executable(), commandArgs(name, arg...)...) //nolint:noctx // Mirrors os/exec.Command.
+}
+
 // CommandContext returns an [exec.Cmd] that runs the given command through the
 // `tausch` CLI.
 //
