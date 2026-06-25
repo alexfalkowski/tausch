@@ -4,22 +4,23 @@
 // (which are stored as strings) to actual byte output written to a destination
 // writer such as os.Stdout, os.Stderr, or a bytes.Buffer in tests.
 //
-// # Relationship to internal/encoding
+// # Payload decoding
 //
 // The tausch YAML config stores `stdout` and `stderr` as strings in a
 // `kind:data` format (for example `text:hello`, `file:/tmp/out.txt`,
-// `base64:...`). This package delegates decoding of that representation to
-// internal/encoding and then writes the resulting bytes to the supplied writer.
+// `base64:...`). This package decodes those payloads and copies the resulting
+// stream to the supplied writer.
 //
 // # Write semantics
 //
 // [Write] has a small but important contract:
 //
 //   - If data is the empty string, it performs no writes and returns (false, nil).
-//   - If data is non-empty, it attempts to decode it and write it to w.
+//   - If data is non-empty, it attempts to copy the decoded stream to w.
 //     On success it returns (true, nil).
-//   - If decoding fails, it returns (false, err).
-//   - If the underlying write fails after decoding succeeds, it returns (true, err).
+//   - If decoding or opening a file fails, it returns (false, err).
+//   - If the underlying stream copy fails after output starts, it returns
+//     (true, err).
 //
 // The returned boolean indicates whether output was attempted/emitted. The CLI
 // orchestration uses this to decide whether to treat a command as a "success"

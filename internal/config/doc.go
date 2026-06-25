@@ -19,7 +19,7 @@
 // # Stdout/stderr payload encoding
 //
 // The `stdout` and `stderr` fields are strings that are interpreted elsewhere
-// (see internal/encoding and internal/io). They use a `kind:data` format such as:
+// (see internal/io). They use a `kind:data` format such as:
 //
 //   - text:<literal text>
 //   - base64:<base64-encoded bytes>

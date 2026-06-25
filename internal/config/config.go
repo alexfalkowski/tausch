@@ -58,7 +58,7 @@ func Decode(path string) (*Config, error) {
 // of command stubs.
 //
 // The stdout/stderr fields inside each command are stored as opaque strings here;
-// decoding those values into bytes is handled by internal/encoding and internal/io.
+// decoding those values into bytes is handled by internal/io.
 type Config struct {
 	// Cmds is the set of configured command stubs.
 	Cmds []*Command `yaml:"cmds"`
@@ -108,7 +108,7 @@ func (c *Config) GetCommand(name string) (*Command, error) {
 // define what tausch should emit when that command is invoked.
 //
 // Stdout and Stderr are strings using tausch's `kind:data` format. Supported kinds
-// are decoded by internal/encoding (for example `text:...`, `file:...`, `base64:...`).
+// are decoded by internal/io (for example `text:...`, `file:...`, `base64:...`).
 type Command struct {
 	// Name is the exact command name to match (for example "go version").
 	Name string `yaml:"name"`

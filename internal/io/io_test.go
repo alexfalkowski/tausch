@@ -55,6 +55,35 @@ func TestWriteError(t *testing.T) {
 	}
 }
 
+func TestWriteKindNotFound(t *testing.T) {
+	values := []string{
+		"bob:test",
+		"text",
+		"base64",
+		"file",
+	}
+
+	for _, value := range values {
+		t.Run(value, func(t *testing.T) {
+			buffer := &bytes.Buffer{}
+			wrote, err := io.Write(buffer, value)
+
+			require.ErrorIs(t, err, io.ErrKindNotFound)
+			require.False(t, wrote)
+			require.Empty(t, buffer.Bytes())
+		})
+	}
+}
+
+func TestWritePreservesDataAfterFirstColon(t *testing.T) {
+	buffer := &bytes.Buffer{}
+	wrote, err := io.Write(buffer, "text:a:b")
+
+	require.NoError(t, err)
+	require.True(t, wrote)
+	require.Equal(t, []byte("a:b"), buffer.Bytes())
+}
+
 func TestWriteEmpty(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	wrote, err := io.Write(buffer, "")
