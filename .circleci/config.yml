@@ -32,13 +32,13 @@ jobs:
       - restore_cache:
           name: restore go cache
           keys:
-            - tausch-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - tausch-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - tausch-go-cache-
       - run: make clean
       - run: make dep
       - save_cache:
           name: save go cache
-          key: tausch-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+          key: tausch-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
           paths:
             - ~/go/pkg/mod
       - restore_cache:
