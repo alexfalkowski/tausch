@@ -123,9 +123,9 @@ cmds:
 ```
 
 > [!IMPORTANT]
-> Configure at most one non-empty encoded output stream for each stub. By default, a non-empty `stdout` value exits `0`; otherwise, Tausch falls back to `stderr` and exits `1`. If both streams are empty or omitted, the command exits `1` with no configured output. Set `exit_code` to override the default after output is written successfully; valid values are `0` through `255`. To stub a successful command that writes zero bytes, use `stdout: "text:"`. Configuring both `stdout` and `stderr` for one command is rejected.
+> Configure at most one non-empty encoded output stream for each stub. By default, a non-empty `stdout` value exits `0`; otherwise, Tausch falls back to `stderr` and exits `1`. If both streams are empty or omitted and `exit_code` is not set, the command exits `1` with no configured output. Set `exit_code` to override the final status after any configured output is written successfully; valid values are `0` through `255`. To stub a successful command that writes zero bytes, use `stdout: "text:"`. Configuring both `stdout` and `stderr` for one command is rejected.
 
-Payload values and `file:` paths are decoded only when the matching command is invoked, not when the YAML file is loaded.
+Payload values and `file:` paths are decoded only when the matching command is invoked, not when the YAML file is loaded. Unknown kinds or payloads without the `kind:data` separator make that invocation exit `1` with the decode error.
 
 ## 🎙️ Capture
 
@@ -201,6 +201,18 @@ Pass a config and, after `--`, call your usual command. The command tokens after
 
 > [!WARNING]
 > Command matching is exact and case-sensitive. For example, `tausch -- go version` matches `name: go version`, but not `name: Go Version` or `name: go version extra`.
+
+#### 🆘 Help
+
+Print command usage with any of the standard Go flag help forms:
+
+```bash
+tausch -h
+tausch -help
+tausch --help
+```
+
+Help output includes the invocation shape, config path resolution order, and available flags. These help invocations exit with status `1`.
 
 #### ✅ Example for stdout
 
