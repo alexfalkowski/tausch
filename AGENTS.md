@@ -67,7 +67,7 @@ make download
 make specs
 ```
 
-(`bin/build/make/go.mak:62-64`)
+Provided by `bin/build/make/go.mak`.
 
 ### Lint / format
 
@@ -99,7 +99,7 @@ Lint configuration lives in `.golangci.yml`.
 make sec
 ```
 
-(`bin/build/make/go.mak:95-97`)
+Provided by `bin/build/make/go.mak`.
 
 ### Coverage
 
@@ -109,7 +109,7 @@ The CI pipeline generates coverage profiles under `test/reports/`.
 make coverage
 ```
 
-(`bin/build/make/go.mak:84-86`)
+Provided by `bin/build/make/go.mak`.
 
 There are also helpers:
 

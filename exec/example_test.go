@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/alexfalkowski/tausch/exec"
 )
@@ -25,7 +24,7 @@ func ExampleCommand() {
 
 	fmt.Print(string(out))
 	// Output:
-	// -- go version
+	// go version go1.24.4 darwin/amd64
 }
 
 func ExampleCommandContext() {
@@ -44,7 +43,7 @@ func ExampleCommandContext() {
 
 	fmt.Print(string(out))
 	// Output:
-	// -- go version
+	// go version go1.24.4 darwin/amd64
 }
 
 func setupExampleTausch() (func(), error) {
@@ -57,23 +56,17 @@ func setupExampleTausch() (func(), error) {
 		os.RemoveAll(dir)
 	}
 
-	tausch := filepath.Join(dir, "tausch")
-	if err := os.WriteFile(tausch, []byte("#!/bin/sh\nprintf '%s\\n' \"$*\"\n"), 0o600); err != nil {
-		cleanup()
-		return nil, err
-	}
-	if err := os.Chmod(tausch, 0o700); err != nil {
-		cleanup()
-		return nil, err
-	}
-
 	oldPath := os.Getenv("PATH")
+	oldTausch, hadTausch := os.LookupEnv("TAUSCH_PATH")
 	oldConfig, hadConfig := os.LookupEnv("TAUSCH_CONFIG")
+
 	os.Setenv("PATH", dir)
-	os.Setenv("TAUSCH_CONFIG", "config.yml")
+	os.Setenv("TAUSCH_PATH", "../tausch")
+	os.Setenv("TAUSCH_CONFIG", "../test/configs/config.yml")
 
 	return func() {
 		os.Setenv("PATH", oldPath)
+		restoreEnv("TAUSCH_PATH", oldTausch, hadTausch)
 		restoreEnv("TAUSCH_CONFIG", oldConfig, hadConfig)
 		cleanup()
 	}, nil
