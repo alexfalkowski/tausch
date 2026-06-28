@@ -12,6 +12,8 @@ import (
 )
 
 func TestWriteSuccess(t *testing.T) {
+	t.Parallel()
+
 	want := []byte(" test\n")
 	file := filepath.Join(t.TempDir(), "sample.txt")
 	require.NoError(t, os.WriteFile(file, want, 0o600))
@@ -29,6 +31,8 @@ func TestWriteSuccess(t *testing.T) {
 
 	for _, tt := range values {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			buffer := &bytes.Buffer{}
 			wrote, err := io.Write(buffer, tt.value, tt.dir)
 
@@ -40,6 +44,8 @@ func TestWriteSuccess(t *testing.T) {
 }
 
 func TestWriteError(t *testing.T) {
+	t.Parallel()
+
 	values := []string{
 		"base64:123456",
 		"file:../../test/configs/none.txt",
@@ -47,6 +53,8 @@ func TestWriteError(t *testing.T) {
 
 	for _, value := range values {
 		t.Run(value, func(t *testing.T) {
+			t.Parallel()
+
 			buffer := &bytes.Buffer{}
 			wrote, err := io.Write(buffer, value, "")
 
@@ -58,6 +66,8 @@ func TestWriteError(t *testing.T) {
 }
 
 func TestWriteKindNotFound(t *testing.T) {
+	t.Parallel()
+
 	values := []string{
 		"bob:test",
 		"text",
@@ -67,6 +77,8 @@ func TestWriteKindNotFound(t *testing.T) {
 
 	for _, value := range values {
 		t.Run(value, func(t *testing.T) {
+			t.Parallel()
+
 			buffer := &bytes.Buffer{}
 			wrote, err := io.Write(buffer, value, "")
 
@@ -78,6 +90,8 @@ func TestWriteKindNotFound(t *testing.T) {
 }
 
 func TestWritePreservesDataAfterFirstColon(t *testing.T) {
+	t.Parallel()
+
 	buffer := &bytes.Buffer{}
 	wrote, err := io.Write(buffer, "text:a:b", "")
 
@@ -87,6 +101,8 @@ func TestWritePreservesDataAfterFirstColon(t *testing.T) {
 }
 
 func TestWriteEmpty(t *testing.T) {
+	t.Parallel()
+
 	buffer := &bytes.Buffer{}
 	wrote, err := io.Write(buffer, "", "")
 
@@ -96,6 +112,8 @@ func TestWriteEmpty(t *testing.T) {
 }
 
 func TestWriteWriterError(t *testing.T) {
+	t.Parallel()
+
 	wrote, err := io.Write(test.FailingWriter{}, "text:test", "")
 
 	require.ErrorIs(t, err, test.ErrWriteFailed)

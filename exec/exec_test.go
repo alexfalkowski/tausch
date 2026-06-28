@@ -112,8 +112,7 @@ func TestCommandFallsBackToTauschPathForErrDot(t *testing.T) {
 }
 
 func TestCommandPrefixesDelimiter(t *testing.T) {
-	t.Setenv("PATH", t.TempDir())
-	t.Setenv("TAUSCH_PATH", filepath.Join(t.TempDir(), "tausch"))
+	t.Parallel()
 
 	cmd := exec.CommandContext(t.Context(), "-version", "--json")
 
