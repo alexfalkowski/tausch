@@ -11,6 +11,8 @@ import (
 )
 
 func TestValuesSuccess(t *testing.T) {
+	t.Parallel()
+
 	args := []string{"-config", "cfg.yml", "test", "my", "code"}
 
 	f, err := flag.Parse(io.Discard, args)
@@ -98,6 +100,8 @@ func (c configCase) assert(t *testing.T) {
 }
 
 func TestValuesError(t *testing.T) {
+	t.Parallel()
+
 	args := []string{"- x"}
 
 	_, err := flag.Parse(io.Discard, args)

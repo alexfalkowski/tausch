@@ -10,6 +10,8 @@ import (
 )
 
 func TestRunInvalidArgs(t *testing.T) {
+	t.Parallel()
+
 	args := []string{"- x"}
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
@@ -37,6 +39,8 @@ func TestRunConfigError(t *testing.T) {
 }
 
 func TestRunMissingConfig(t *testing.T) {
+	t.Parallel()
+
 	args := []string{
 		"-config", "cfg.yml",
 		"--",
@@ -52,6 +56,8 @@ func TestRunMissingConfig(t *testing.T) {
 }
 
 func TestRunMissingCommand(t *testing.T) {
+	t.Parallel()
+
 	args := []string{
 		"-config", "../../test/configs/config.yml",
 		"--",
@@ -67,6 +73,8 @@ func TestRunMissingCommand(t *testing.T) {
 }
 
 func TestRunMultipleOutputs(t *testing.T) {
+	t.Parallel()
+
 	args := []string{
 		"-config", "../../test/configs/multiple_outputs.yml",
 		"--",
@@ -82,6 +90,8 @@ func TestRunMultipleOutputs(t *testing.T) {
 }
 
 func TestRunStdoutWriteError(t *testing.T) {
+	t.Parallel()
+
 	args := []string{
 		"-config", "../../test/configs/stdout_invalid_base64.yml",
 		"--",
@@ -146,6 +156,8 @@ func TestRunStdoutExitCode(t *testing.T) {
 }
 
 func TestRunStderrWriteError(t *testing.T) {
+	t.Parallel()
+
 	args := []string{
 		"-config", "../../test/configs/stderr_invalid_base64.yml",
 		"--",
@@ -195,6 +207,8 @@ func TestRunStderrExitCode(t *testing.T) {
 }
 
 func TestRunNoOutputExitCode(t *testing.T) {
+	t.Parallel()
+
 	args := []string{
 		"-config", "../../test/configs/exit_code.yml",
 		"--",

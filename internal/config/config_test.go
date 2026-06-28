@@ -8,6 +8,8 @@ import (
 )
 
 func TestDecodeSuccess(t *testing.T) {
+	t.Parallel()
+
 	c, err := config.Decode("../../test/configs/config.yml")
 
 	require.NoError(t, err)
@@ -15,6 +17,8 @@ func TestDecodeSuccess(t *testing.T) {
 }
 
 func TestDecodeExitCode(t *testing.T) {
+	t.Parallel()
+
 	c, err := config.Decode("../../test/configs/exit_code.yml")
 
 	require.NoError(t, err)
@@ -24,6 +28,8 @@ func TestDecodeExitCode(t *testing.T) {
 }
 
 func TestDecodeError(t *testing.T) {
+	t.Parallel()
+
 	values := []string{
 		"../../test/configs/none.yml",
 		"../../test/configs/empty.yml",
@@ -31,6 +37,8 @@ func TestDecodeError(t *testing.T) {
 
 	for _, value := range values {
 		t.Run(value, func(t *testing.T) {
+			t.Parallel()
+
 			c, err := config.Decode(value)
 
 			require.Error(t, err)
@@ -40,6 +48,8 @@ func TestDecodeError(t *testing.T) {
 }
 
 func TestDecodeMultipleOutputs(t *testing.T) {
+	t.Parallel()
+
 	c, err := config.Decode("../../test/configs/multiple_outputs.yml")
 
 	require.Nil(t, c)
@@ -48,6 +58,8 @@ func TestDecodeMultipleOutputs(t *testing.T) {
 }
 
 func TestDecodeInvalidExitCode(t *testing.T) {
+	t.Parallel()
+
 	c, err := config.Decode("../../test/configs/invalid_exit_code.yml")
 
 	require.Nil(t, c)
@@ -56,6 +68,8 @@ func TestDecodeInvalidExitCode(t *testing.T) {
 }
 
 func TestGetCommandNilCommand(t *testing.T) {
+	t.Parallel()
+
 	c := &config.Config{Cmds: []*config.Command{nil}}
 
 	command, err := c.GetCommand("go version")
@@ -65,6 +79,8 @@ func TestGetCommandNilCommand(t *testing.T) {
 }
 
 func TestGetCommandExactMatch(t *testing.T) {
+	t.Parallel()
+
 	command := &config.Command{Name: "go version", Stdout: "text:go version"}
 	c := &config.Config{
 		Cmds: []*config.Command{
@@ -84,6 +100,8 @@ func TestGetCommandExactMatch(t *testing.T) {
 
 	for _, value := range []string{"Go version", "go", " go version "} {
 		t.Run(value, func(t *testing.T) {
+			t.Parallel()
+
 			got, err := c.GetCommand(value)
 
 			require.Nil(t, got)
