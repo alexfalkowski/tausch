@@ -272,8 +272,32 @@ Build the CLI from the repository root:
 make build
 ```
 
-Run the tests after the binary exists:
+Run the repository checks after the binary exists:
 
 ```bash
-go test ./...
+make specs
+```
+
+Run the benchmark aggregate:
+
+```bash
+make benchmarks
+```
+
+Run one benchmark package:
+
+```bash
+make benchmark package=internal/io
+```
+
+Run bounded smoke fuzzing for all fuzz targets:
+
+```bash
+make fuzz-smoke
+```
+
+Run one fuzz target:
+
+```bash
+make fuzz package=internal/io name=FuzzWriteText
 ```

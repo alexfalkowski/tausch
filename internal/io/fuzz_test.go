@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// FuzzWriteText protects user-controlled text payloads, where configured
+// command output can be empty or contain separators after the kind prefix.
 func FuzzWriteText(f *testing.F) {
 	f.Add("")
 	f.Add(" test\n")
@@ -29,6 +31,8 @@ func FuzzWriteText(f *testing.F) {
 	})
 }
 
+// FuzzWriteBase64 protects base64 payload decoding for arbitrary recorded
+// command output bytes.
 func FuzzWriteBase64(f *testing.F) {
 	f.Add([]byte(""))
 	f.Add([]byte(" test\n"))
@@ -48,6 +52,8 @@ func FuzzWriteBase64(f *testing.F) {
 	})
 }
 
+// FuzzWriteKindNotFound protects the kind:data parser from accepting unknown
+// output encodings.
 func FuzzWriteKindNotFound(f *testing.F) {
 	f.Add("bob", "test")
 	f.Add("", "test")

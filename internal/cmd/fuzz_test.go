@@ -13,6 +13,8 @@ import (
 	"go.yaml.in/yaml/v3"
 )
 
+// FuzzRunWritesConfiguredStdout protects the end-to-end CLI path for arbitrary
+// command names that are serialized through YAML and parsed from argv.
 func FuzzRunWritesConfiguredStdout(f *testing.F) {
 	f.Add("go version")
 	f.Add(" go version ")
