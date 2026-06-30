@@ -7,6 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// FuzzConfigValidate protects YAML-decoded command invariants from arbitrary
+// command names, output payloads, and exit code values.
 func FuzzConfigValidate(f *testing.F) {
 	f.Add("go version", "text:go version", "", 0, false)
 	f.Add("go bob", "", "text:go bob", 127, true)
@@ -42,6 +44,8 @@ func FuzzConfigValidate(f *testing.F) {
 	})
 }
 
+// FuzzConfigGetCommand protects exact command-name matching, which is the CLI's
+// user-visible lookup contract.
 func FuzzConfigGetCommand(f *testing.F) {
 	f.Add("go version", "go version")
 	f.Add("go version", "Go Version")

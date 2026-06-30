@@ -8,6 +8,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// FuzzCommandPrefixesDelimiter protects the public exec wrapper's compatibility
+// contract: target command tokens are always passed after tausch's -- delimiter.
 func FuzzCommandPrefixesDelimiter(f *testing.F) {
 	f.Add("go", "version", "")
 	f.Add("go", "env", "GOPATH")

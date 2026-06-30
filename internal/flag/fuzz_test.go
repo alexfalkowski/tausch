@@ -9,6 +9,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// FuzzParseCommandName protects the CLI argument boundary where command tokens
+// after -- are joined into the config lookup name.
 func FuzzParseCommandName(f *testing.F) {
 	f.Add("go", "version")
 	f.Add(" test ", "my code")
