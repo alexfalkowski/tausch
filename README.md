@@ -290,7 +290,7 @@ Run one benchmark package:
 make benchmark package=internal/io
 ```
 
-Run bounded smoke fuzzing for all fuzz targets:
+Run count-bounded smoke fuzzing for all fuzz targets:
 
 ```bash
 make fuzzes
@@ -300,4 +300,11 @@ Run one fuzz target:
 
 ```bash
 make fuzz package=internal/io name=FuzzWriteText
+```
+
+The repository default is `fuzztime=1000x`, so fuzzing is bounded by run count
+instead of wall-clock duration. Override it when needed:
+
+```bash
+make fuzz package=internal/io name=FuzzWriteText fuzztime=250x
 ```
