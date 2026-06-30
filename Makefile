@@ -2,8 +2,6 @@ include bin/build/make/help.mak
 include bin/build/make/go.mak
 include bin/build/make/git.mak
 
-.PHONY: benchmarks benchmark-cli benchmark-config benchmark-flag benchmark-io fuzz-smoke fuzz-cmd fuzz-config fuzz-flag fuzz-io fuzz-exec
-
 # Build the cli.
 build:
 	@go build
@@ -28,7 +26,7 @@ benchmark-io:
 	@$(MAKE) benchmark package=internal/io
 
 # Run bounded smoke fuzzing for all repository fuzz targets.
-fuzz-smoke: fuzz-cmd fuzz-config fuzz-flag fuzz-io fuzz-exec
+fuzzes: fuzz-cmd fuzz-config fuzz-flag fuzz-io fuzz-exec
 
 # Fuzz the end-to-end CLI stdout path.
 fuzz-cmd:

@@ -293,7 +293,7 @@ make benchmark package=internal/io
 Run bounded smoke fuzzing for all fuzz targets:
 
 ```bash
-make fuzz-smoke
+make fuzzes
 ```
 
 Run one fuzz target:
