@@ -47,11 +47,11 @@ Notes:
 make build
 ```
 
-(`Makefile:6-7`)
+The root `Makefile` owns the `build` target.
 
 ### Dependencies
 
-Provided via included makefiles from the `bin/` submodule (`Makefile:1-3` includes `bin/build/make/go.mak`):
+Provided by `bin/build/make/go.mak`, which the root `Makefile` includes:
 
 ```bash
 make dep
@@ -104,9 +104,13 @@ Provided by `bin/build/make/go.mak`.
 
 ### Coverage
 
-The CI pipeline generates coverage profiles under `test/reports/`.
+`make specs` generates the coverage profile under `test/reports/`; the coverage
+target renders that profile. Build the current CLI and generate a fresh profile
+before rendering coverage:
 
 ```bash
+make build
+make specs
 make coverage
 ```
 
@@ -129,7 +133,7 @@ external tools:
 - `make create-diagram`
 - `make create-certs`
 - `make analyse`
-- `make money`
+- `make cost`
 
 ## Project structure
 
@@ -151,11 +155,13 @@ The CLI is designed to be invoked as:
 tausch -config path/to/config.yml -- <your command as a string>
 ```
 
-Internally, the “command name” is the args after `--` joined by spaces (`internal/flag/values.go:45-47`). That string must match the `name` field in the YAML config.
+Internally, `Values.Name` in `internal/flag/values.go` joins the args after `--`
+with spaces. That string must match the `name` field in the YAML config.
 
 ### Config file discovery
 
-Config path is resolved in this order (`internal/flag/values.go:29-42`):
+`Values.Config` in `internal/flag/values.go` resolves the config path in this
+order:
 
 1. `-config <path>`
 2. `TAUSCH_CONFIG` environment variable
@@ -177,8 +183,10 @@ If the prefix is unknown, decoding fails with `ErrKindNotFound`.
 
 The `exec` package returns an `*exec.Cmd` that actually executes the `tausch` binary:
 
-- It resolves the binary via `exec.LookPath("tausch")`, and falls back to `TAUSCH_PATH` if not found (`exec/exec.go:15-22`).
-- It prefixes arguments with `--` before the real command (`exec/exec.go:24-26`).
+- The `executable` helper in `exec/exec.go` resolves the binary via
+  `exec.LookPath("tausch")` and falls back to `TAUSCH_PATH` if not found.
+- The `commandArgs` helper in `exec/exec.go` prefixes arguments with `--`
+  before the real command.
 
 Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either via `PATH` including an absolute repo root or via `TAUSCH_PATH`). Do not rely on `PATH=.`; Go's `exec.LookPath` can reject current-directory matches and cause the wrapper to fall back to `TAUSCH_PATH`.
 
@@ -207,4 +215,8 @@ Tests in `exec/exec_test.go` rely on the `tausch` binary being present (either v
   root, so run `make build` first when needed. Do not override or extend the
   shared `specs` target locally; keep the build-before-specs ordering in
   workflow guidance and CI.
-- **Command name matching**: command lookup is string-based (joined args after `--`); minor spacing differences will cause `command not found` errors.
+- **Command name matching**: command lookup is string-based (joined args after
+  `--`). Shell spacing or quoting that produces the same argument tokens does
+  not matter. Only differences that change the derived string, such as case
+  changes, added non-whitespace content, or embedded literal whitespace, cause
+  `command not found` errors.

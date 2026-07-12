@@ -95,6 +95,11 @@ tausch -config config.yml -- go version
 
 The configuration is a YAML document with a top-level `cmds` list. Each command entry has a `name` and may set `stdout`, `stderr`, or `exit_code`.
 
+> [!WARNING]
+> Unknown YAML keys are ignored, so a misspelled field does not fail config
+> loading. Keep command names unique; if multiple entries have the same exact
+> name, Tausch uses the first one in `cmds`.
+
 The `stdout` and `stderr` values use a `kind:data` format:
 
 ```txt
@@ -117,7 +122,7 @@ cmds:
     stdout: file:test/stdout/go_version.txt
   - name: go bob
     stderr: file:test/stderr/go_bob.txt
-    exit_code: 127
+    exit_code: 2
   - name: grep needle file.txt
     exit_code: 1
 ```
@@ -141,7 +146,7 @@ For stderr:
 
 ```bash
 go bob 2> test/stderr/go_bob.txt
-echo $? # copy this into exit_code when needed
+echo $? # copy the captured status (2 for this example) into exit_code
 ```
 
 For a command where you want both streams in one file:
@@ -158,7 +163,7 @@ cmds:
     stdout: file:test/stdout/go_version.txt
   - name: go bob
     stderr: file:test/stderr/go_bob.txt
-    exit_code: 127
+    exit_code: 2
 ```
 
 To refresh a fixture, rerun the same redirect command:
@@ -212,7 +217,7 @@ tausch -help
 tausch --help
 ```
 
-Help output includes the invocation shape, config path resolution order, and available flags. These help invocations exit with status `1`.
+Help output includes the invocation shape, config path resolution order, and available flags. These help invocations write usage to stderr and exit with status `1`.
 
 #### ✅ Example for stdout
 
