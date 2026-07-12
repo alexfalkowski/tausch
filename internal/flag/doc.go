@@ -29,7 +29,9 @@
 //	"go version"
 //
 // This derived name must match the `name` field in the YAML config exactly.
-// Because matching is string-based, differences in spacing or quoting will cause
+// Shell spacing or quoting that produces the same argument tokens does not
+// affect the name. Only differences that change the derived string, such as case
+// changes, added non-whitespace content, or embedded literal whitespace, cause
 // lookups to fail.
 //
 // # Config path resolution

@@ -28,6 +28,10 @@ func Command(name string, arg ...string) *exec.Cmd {
 // CommandContext returns an [exec.Cmd] that runs the given command through the
 // `tausch` CLI.
 //
+// It mirrors [os/exec.CommandContext]: ctx controls the lifetime of the
+// `tausch` process and must be non-nil. The returned [exec.Cmd] retains the
+// standard command cancellation lifecycle.
+//
 // The returned command executes the `tausch` binary and prefixes the provided
 // command with `--`, so this:
 //

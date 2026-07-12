@@ -32,11 +32,12 @@ const maxExitCode = 255
 
 // Decode reads a YAML configuration file from path and decodes it into a [Config].
 //
-// The YAML is expected to match the tausch schema (a top-level `cmds` list). This
-// function validates command-level invariants, but it does not validate that any
-// commands are present or that stdout/stderr payload strings are valid
-// `kind:data` values. The decoded config records the absolute directory of path
-// so relative file payloads can be resolved from the config file location.
+// The YAML is expected to match the tausch schema (a top-level `cmds` list).
+// Unknown YAML fields are ignored. This function validates command-level
+// invariants, but it does not validate that any commands are present or that
+// stdout/stderr payload strings are valid `kind:data` values. The decoded config
+// records the absolute directory of path so relative file payloads can be
+// resolved from the config file location.
 //
 // The returned *Config is ready to be queried with [Config.GetCommand].
 //
@@ -112,8 +113,9 @@ func (c *Config) Validate() error {
 //
 // Matching is string-based and exact (case-sensitive). The tausch CLI derives name
 // by joining the command tokens (typically the args after `--`) with spaces.
-// Because of this, small differences in whitespace or quoting can cause lookups
-// to fail.
+// Shell spacing or quoting that produces the same tokens does not affect that
+// derived name; differences that change the resulting string do affect lookup.
+// If more than one command matches, GetCommand returns the first one in [Config.Cmds].
 //
 // If no command matches, the error will be [ErrCommandNotFound].
 func (c *Config) GetCommand(name string) (*Command, error) {
