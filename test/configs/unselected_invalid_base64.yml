@@ -1,0 +1,5 @@
+cmds:
+  - name: stale
+    stdout: base64:!!!
+  - name: demo
+    stdout: text:valid
