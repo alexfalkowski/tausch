@@ -27,6 +27,17 @@ func TestDecodeExitCode(t *testing.T) {
 	require.Equal(t, 7, *c.Cmds[0].ExitCode)
 }
 
+func TestDecodeUnknownKeys(t *testing.T) {
+	t.Parallel()
+
+	c, err := config.Decode("../../test/configs/unknown_keys.yml")
+
+	require.NoError(t, err)
+	require.Len(t, c.Cmds, 1)
+	require.Equal(t, "demo", c.Cmds[0].Name)
+	require.Equal(t, "text:unknown-ok", c.Cmds[0].Stdout)
+}
+
 func TestDecodeError(t *testing.T) {
 	t.Parallel()
 
@@ -82,9 +93,11 @@ func TestGetCommandExactMatch(t *testing.T) {
 	t.Parallel()
 
 	command := &config.Command{Name: "go version", Stdout: "text:go version"}
+	duplicate := &config.Command{Name: "go version", Stdout: "text:duplicate"}
 	c := &config.Config{
 		Cmds: []*config.Command{
 			command,
+			duplicate,
 			{Name: "Go Version", Stdout: "text:case"},
 			{Name: "go version extra", Stdout: "text:extra"},
 		},
@@ -96,7 +109,7 @@ func TestGetCommandExactMatch(t *testing.T) {
 
 	got, err = c.GetCommand("go version extra")
 	require.NoError(t, err)
-	require.Same(t, c.Cmds[2], got)
+	require.Same(t, c.Cmds[3], got)
 
 	for _, value := range []string{"Go version", "go", " go version "} {
 		t.Run(value, func(t *testing.T) {

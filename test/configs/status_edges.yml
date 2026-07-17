@@ -1,0 +1,10 @@
+cmds:
+  - name: silent stdout
+    stdout: "text:"
+  - name: no output success
+    exit_code: 0
+  - name: no output maximum
+    exit_code: 255
+  - name: invalid output
+    stdout: base64:!!!
+    exit_code: 0

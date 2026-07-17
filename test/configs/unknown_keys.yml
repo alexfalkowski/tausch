@@ -1,0 +1,5 @@
+future_top: ignored
+cmds:
+  - name: demo
+    future_key: ignored
+    stdout: text:unknown-ok
